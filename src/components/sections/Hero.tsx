@@ -29,7 +29,7 @@ const Hero = () => {
             transition={{ duration: 0.8 }}
           >
             <span className="inline-block mb-6 px-4 py-2 rounded-full border border-primary/30 bg-primary/10 text-sm font-medium text-primary">
-              Produtora Audiovisual Profissional
+              Produtora Audiovisual
             </span>
           </motion.div>
 
@@ -40,19 +40,18 @@ const Hero = () => {
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6"
           >
             Vídeos que{" "}
-            <span className="text-gradient glow-text">posicionam</span>{" "}
-            sua marca e{" "}
-            <span className="text-gradient glow-text">geram resultado</span>
+            <span className="text-gradient glow-text">vendem</span> e{" "}
+            <span className="text-gradient glow-text">posicionam</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
+            className="text-lg sm:text-xl text-muted-foreground max-w-xl mx-auto mb-10"
           >
-            Criamos filmes, campanhas e conteúdos estratégicos para empresas e marcas 
-            que querem se destacar no mercado com produções de alto impacto.
+            Produzimos conteúdo audiovisual estratégico para empresas 
+            que querem se destacar no mercado.
           </motion.p>
 
           <motion.div

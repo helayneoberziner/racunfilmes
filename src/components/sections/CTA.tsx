@@ -12,10 +12,10 @@ const CTA = () => {
   const message = encodeURIComponent("Olá! Quero transformar minha marca com vídeos profissionais.");
 
   return (
-    <section className="section-padding relative overflow-hidden">
+    <section className="py-20 md:py-28 relative overflow-hidden bg-gradient-dark">
       {/* Background Effects */}
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-primary/10" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[150px]" />
+      <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/5" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[120px]" />
       
       <div className="container-custom relative z-10">
         <motion.div
@@ -23,15 +23,14 @@ const CTA = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="max-w-4xl mx-auto text-center"
+          className="max-w-3xl mx-auto text-center"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6">
-            Pronto para transformar sua marca com{" "}
-            <span className="text-gradient glow-text">vídeos profissionais</span>?
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-5">
+            Pronto para{" "}
+            <span className="text-gradient glow-text">transformar sua marca</span>?
           </h2>
-          <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-            Junte-se às empresas que já elevaram sua comunicação visual com a Racun Filmes. 
-            Vamos criar algo incrível juntos.
+          <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
+            Vamos criar algo incrível juntos. Entre em contato agora.
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -43,13 +42,13 @@ const CTA = () => {
                 className="flex items-center gap-2"
               >
                 <MessageCircle className="w-5 h-5" />
-                Iniciar Conversa no WhatsApp
+                Falar no WhatsApp
               </a>
             </Button>
             <Button variant="heroOutline" size="xl" asChild>
               <a href="#contact" className="flex items-center gap-2">
                 Solicitar Orçamento
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-4 h-4" />
               </a>
             </Button>
           </div>
