@@ -6,6 +6,8 @@ import Services from "@/components/sections/Services";
 import Segments from "@/components/sections/Segments";
 import Objectives from "@/components/sections/Objectives";
 import Process from "@/components/sections/Process";
+import BehindTheScenes from "@/components/sections/BehindTheScenes";
+import Founder from "@/components/sections/Founder";
 import About from "@/components/sections/About";
 import Testimonials from "@/components/sections/Testimonials";
 import FAQ from "@/components/sections/FAQ";
@@ -26,6 +28,8 @@ const Index = () => {
         <Segments />
         <Objectives />
         <Process />
+        <BehindTheScenes />
+        <Founder />
         <About />
         <Testimonials />
         <FAQ />
