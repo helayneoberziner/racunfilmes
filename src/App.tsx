@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import Login from "./pages/admin/Login";
 import Signup from "./pages/admin/Signup";
 import Dashboard from "./pages/admin/Dashboard";
+import Leads from "./pages/admin/Leads";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,14 @@ const App = () => (
               element={
                 <ProtectedRoute requireAdmin>
                   <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/leads"
+              element={
+                <ProtectedRoute requireAdmin>
+                  <Leads />
                 </ProtectedRoute>
               }
             />
