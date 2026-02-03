@@ -62,6 +62,19 @@ const Contact = () => {
 
       if (error) throw error;
 
+      // Send email notification (fire and forget - don't block form submission)
+      supabase.functions.invoke("send-lead-notification", {
+        body: {
+          name: validatedData.name,
+          email: validatedData.email,
+          whatsapp: validatedData.whatsapp,
+          projectType: validatedData.projectType,
+          objective: validatedData.objective,
+          company: validatedData.company,
+          deadline: validatedData.deadline,
+        },
+      }).catch(console.error);
+
       toast.success("Mensagem enviada!", {
         description: "Redirecionando para o WhatsApp...",
       });
