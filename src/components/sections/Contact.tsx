@@ -6,28 +6,102 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { z } from "zod";
+
+const leadSchema = z.object({
+  name: z.string().trim().min(1, "Nome é obrigatório").max(100, "Nome muito longo"),
+  company: z.string().trim().max(100, "Nome da empresa muito longo").optional(),
+  whatsapp: z.string().trim().min(1, "WhatsApp é obrigatório").max(20, "WhatsApp inválido"),
+  email: z.string().trim().email("E-mail inválido").max(255, "E-mail muito longo"),
+  projectType: z.string().trim().max(100, "Tipo de projeto muito longo").optional(),
+  deadline: z.string().trim().max(50, "Prazo muito longo").optional(),
+  objective: z.string().trim().min(1, "Objetivo é obrigatório").max(1000, "Mensagem muito longa"),
+});
+
+type LeadFormData = z.infer<typeof leadSchema>;
 
 const Contact = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState<LeadFormData>({
+    name: "",
+    company: "",
+    whatsapp: "",
+    email: "",
+    projectType: "",
+    deadline: "",
+    objective: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    toast.success("Mensagem enviada!", {
-      description: "Retornaremos em até 24 horas úteis.",
-    });
-    
-    setIsSubmitting(false);
-    (e.target as HTMLFormElement).reset();
+
+    try {
+      // Validate form data
+      const validatedData = leadSchema.parse(formData);
+
+      // Insert lead into database
+      const { error } = await supabase.from("leads").insert({
+        name: validatedData.name,
+        email: validatedData.email,
+        whatsapp: validatedData.whatsapp,
+        project_type: validatedData.projectType || null,
+        objective: validatedData.objective,
+        message: validatedData.company 
+          ? `Empresa: ${validatedData.company}${validatedData.deadline ? ` | Prazo: ${validatedData.deadline}` : ""}`
+          : validatedData.deadline ? `Prazo: ${validatedData.deadline}` : null,
+      });
+
+      if (error) throw error;
+
+      toast.success("Mensagem enviada!", {
+        description: "Redirecionando para o WhatsApp...",
+      });
+
+      // Reset form
+      setFormData({
+        name: "",
+        company: "",
+        whatsapp: "",
+        email: "",
+        projectType: "",
+        deadline: "",
+        objective: "",
+      });
+
+      // Redirect to WhatsApp after short delay
+      const whatsappMessage = encodeURIComponent(
+        `Olá! Sou ${validatedData.name}${validatedData.company ? ` da ${validatedData.company}` : ""}. Acabei de enviar um formulário de orçamento pelo site. Gostaria de discutir meu projeto de ${validatedData.projectType || "vídeo"}.`
+      );
+      setTimeout(() => {
+        window.open(`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`, "_blank");
+      }, 1500);
+
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const firstError = error.errors[0];
+        toast.error("Erro de validação", {
+          description: firstError.message,
+        });
+      } else {
+        toast.error("Erro ao enviar", {
+          description: "Tente novamente ou entre em contato pelo WhatsApp.",
+        });
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const whatsappNumber = "5547999999999";
-  const message = encodeURIComponent("Olá! Gostaria de solicitar um orçamento.");
 
   return (
     <section id="contact" className="py-20 md:py-28">
@@ -63,6 +137,9 @@ const Contact = () => {
                 <div>
                   <label className="text-sm font-medium mb-2 block">Nome *</label>
                   <Input 
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
                     placeholder="Seu nome"
                     required
                     className="bg-card border-border focus:border-primary"
@@ -71,6 +148,9 @@ const Contact = () => {
                 <div>
                   <label className="text-sm font-medium mb-2 block">Empresa</label>
                   <Input 
+                    name="company"
+                    value={formData.company}
+                    onChange={handleChange}
                     placeholder="Nome da empresa"
                     className="bg-card border-border focus:border-primary"
                   />
@@ -81,6 +161,9 @@ const Contact = () => {
                 <div>
                   <label className="text-sm font-medium mb-2 block">WhatsApp *</label>
                   <Input 
+                    name="whatsapp"
+                    value={formData.whatsapp}
+                    onChange={handleChange}
                     placeholder="(47) 99999-9999"
                     required
                     className="bg-card border-border focus:border-primary"
@@ -89,7 +172,10 @@ const Contact = () => {
                 <div>
                   <label className="text-sm font-medium mb-2 block">E-mail *</label>
                   <Input 
+                    name="email"
                     type="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     placeholder="seu@email.com"
                     required
                     className="bg-card border-border focus:border-primary"
@@ -101,6 +187,9 @@ const Contact = () => {
                 <div>
                   <label className="text-sm font-medium mb-2 block">Tipo de Projeto</label>
                   <Input 
+                    name="projectType"
+                    value={formData.projectType}
+                    onChange={handleChange}
                     placeholder="Ex: Institucional, campanha..."
                     className="bg-card border-border focus:border-primary"
                   />
@@ -108,6 +197,9 @@ const Contact = () => {
                 <div>
                   <label className="text-sm font-medium mb-2 block">Prazo</label>
                   <Input 
+                    name="deadline"
+                    value={formData.deadline}
+                    onChange={handleChange}
                     placeholder="Ex: 30 dias"
                     className="bg-card border-border focus:border-primary"
                   />
@@ -117,6 +209,9 @@ const Contact = () => {
               <div>
                 <label className="text-sm font-medium mb-2 block">Objetivo do vídeo *</label>
                 <Textarea 
+                  name="objective"
+                  value={formData.objective}
+                  onChange={handleChange}
                   placeholder="Descreva seu projeto e o resultado esperado..."
                   rows={4}
                   required
@@ -158,7 +253,7 @@ const Contact = () => {
               <h3 className="font-bold mb-4">Prefere WhatsApp?</h3>
               <Button variant="whatsapp" size="lg" className="w-full" asChild>
                 <a
-                  href={`https://wa.me/${whatsappNumber}?text=${message}`}
+                  href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Olá! Gostaria de solicitar um orçamento.")}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
