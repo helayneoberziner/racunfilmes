@@ -78,7 +78,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     const emailResponse = await resend.emails.send({
       from: "Leads <onboarding@resend.dev>", // Change to your verified domain: noreply@yourdomain.com
-      to: ["seu-email@empresa.com"], // Change to your actual notification email
+      to: ["racunagencia@gmail.com"],
       subject: `🎬 Novo Lead: ${lead.name} - ${lead.projectType || 'Orçamento'}`,
       html: emailHtml,
     });
