@@ -1,4 +1,5 @@
-import { Instagram, Youtube, Linkedin } from "lucide-react";
+import { Instagram, Youtube, Linkedin, Settings } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -71,9 +72,17 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-border mt-8 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
           <p>© {currentYear} Racun Filmes. Todos os direitos reservados.</p>
-          <div className="flex gap-4">
+          <div className="flex items-center gap-4">
             <a href="#" className="hover:text-primary transition-colors">Privacidade</a>
             <a href="#" className="hover:text-primary transition-colors">Termos</a>
+            <Link 
+              to="/admin/login" 
+              className="flex items-center gap-1 hover:text-primary transition-colors"
+              title="Área Administrativa"
+            >
+              <Settings className="w-3 h-3" />
+              <span>Admin</span>
+            </Link>
           </div>
         </div>
       </div>
