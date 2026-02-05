@@ -7,7 +7,8 @@ import {
   Smartphone, 
   Building2, 
   Calendar,
-  ArrowRight
+  ArrowRight,
+  Vote
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -36,6 +37,11 @@ const services = [
     icon: Calendar,
     title: "Cobertura de Eventos",
     description: "Registro profissional que eterniza momentos importantes.",
+  },
+  {
+    icon: Vote,
+    title: "Campanhas Eleitorais",
+    description: "Vídeos estratégicos que conectam candidatos ao eleitorado.",
   },
 ];
 
