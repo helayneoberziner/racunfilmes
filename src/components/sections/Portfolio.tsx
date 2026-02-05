@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { Play, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import VideoModal from "@/components/VideoModal";
+import PhotoGallery from "@/components/sections/PhotoGallery";
 
 const categories = ["Todos", "Institucionais", "Comerciais", "Imobiliário", "Redes Sociais", "Eventos"];
 
@@ -155,6 +156,35 @@ const Portfolio = () => {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.5, delay: 0.6 }}
+            className="text-center mt-12"
+          >
+            <p className="text-muted-foreground mb-4">Gostou do que viu?</p>
+            <Button variant="whatsapp" size="lg" asChild>
+              <a
+                href={`https://wa.me/${whatsappNumber}?text=${message}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2"
+              >
+                <MessageCircle className="w-5 h-5" />
+                Falar sobre seu projeto
+              </a>
+            </Button>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Photo Gallery Section */}
+      <section className="pb-20 md:pb-28 bg-gradient-dark">
+        <div className="container-custom">
+          <PhotoGallery />
+          
+          {/* CTA após fotos */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
             className="text-center mt-12"
           >
             <p className="text-muted-foreground mb-4">Gostou do que viu?</p>
