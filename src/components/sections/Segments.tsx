@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Building, Factory, UtensilsCrossed, PartyPopper, Sparkles } from "lucide-react";
+import { Vote } from "lucide-react";
 
 const segments = [
   {
@@ -34,6 +35,12 @@ const segments = [
     description: "Filmes que posicionam e diferenciam.",
     color: "from-purple-500 to-purple-600",
   },
+  {
+    icon: Vote,
+    title: "Eleições",
+    description: "Campanhas que conectam candidatos.",
+    color: "from-red-500 to-red-600",
+  },
 ];
 
 const Segments = () => {
@@ -61,7 +68,7 @@ const Segments = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
           {segments.map((segment, index) => (
             <motion.div
               key={segment.title}
