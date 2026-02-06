@@ -11,6 +11,7 @@ interface AdminLayoutProps {
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/leads', label: 'Leads', icon: Users },
+  { href: '/admin/portfolio', label: 'Portfólio', icon: Film },
 ];
 
 export function AdminLayout({ children }: AdminLayoutProps) {
