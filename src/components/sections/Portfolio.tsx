@@ -5,51 +5,53 @@ import { Play, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import VideoModal from "@/components/VideoModal";
 import PhotoGallery from "@/components/sections/PhotoGallery";
+import { usePortfolioVideos } from "@/hooks/usePortfolio";
 
-const categories = ["Todos", "Institucionais", "Comerciais", "Imobiliário", "Redes Sociais", "Eventos"];
+const categories = ["Todos", "Institucionais", "Comerciais", "Imobiliário", "Redes Sociais", "Eventos", "Campanhas Eleitorais"];
 
-const portfolioItems = [
+// Fallback data for when database is empty
+const fallbackVideos = [
   {
-    id: 1,
+    id: "1",
     title: "Vídeo Institucional Premium",
     category: "Institucionais",
-    thumbnail: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=600&h=400&fit=crop",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1",
+    thumbnail_url: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=600&h=400&fit=crop",
+    video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1",
   },
   {
-    id: 2,
+    id: "2",
     title: "Campanha Publicitária",
     category: "Comerciais",
-    thumbnail: "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=600&h=400&fit=crop",
-    videoUrl: "https://www.youtube.com/embed/jNQXAC9IVRw?autoplay=1",
+    thumbnail_url: "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=600&h=400&fit=crop",
+    video_url: "https://www.youtube.com/embed/jNQXAC9IVRw?autoplay=1",
   },
   {
-    id: 3,
+    id: "3",
     title: "Tour Empreendimento",
     category: "Imobiliário",
-    thumbnail: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=600&h=400&fit=crop",
-    videoUrl: "https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=1",
+    thumbnail_url: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=600&h=400&fit=crop",
+    video_url: "https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=1",
   },
   {
-    id: 4,
+    id: "4",
     title: "Conteúdo para Redes",
     category: "Redes Sociais",
-    thumbnail: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&h=400&fit=crop",
-    videoUrl: "https://www.youtube.com/embed/9bZkp7q19f0?autoplay=1",
+    thumbnail_url: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&h=400&fit=crop",
+    video_url: "https://www.youtube.com/embed/9bZkp7q19f0?autoplay=1",
   },
   {
-    id: 5,
+    id: "5",
     title: "Cobertura de Evento",
     category: "Eventos",
-    thumbnail: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=600&h=400&fit=crop",
-    videoUrl: "https://www.youtube.com/embed/kJQP7kiw5Fk?autoplay=1",
+    thumbnail_url: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=600&h=400&fit=crop",
+    video_url: "https://www.youtube.com/embed/kJQP7kiw5Fk?autoplay=1",
   },
   {
-    id: 6,
+    id: "6",
     title: "Filme Comercial",
     category: "Comerciais",
-    thumbnail: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=400&fit=crop",
-    videoUrl: "https://www.youtube.com/embed/fJ9rUzIMcZQ?autoplay=1",
+    thumbnail_url: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=400&fit=crop",
+    video_url: "https://www.youtube.com/embed/fJ9rUzIMcZQ?autoplay=1",
   },
 ];
 
@@ -58,13 +60,23 @@ const Portfolio = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [activeCategory, setActiveCategory] = useState("Todos");
   const [selectedVideo, setSelectedVideo] = useState<{ url: string; title: string } | null>(null);
+  
+  const { data: dbVideos = [], isLoading } = usePortfolioVideos();
+  
+  // Use database videos if available, otherwise fallback
+  const portfolioItems = dbVideos.length > 0 
+    ? dbVideos.map(v => ({
+        id: v.id,
+        title: v.title,
+        category: v.category,
+        thumbnail_url: v.thumbnail_url,
+        video_url: v.video_url,
+      }))
+    : fallbackVideos;
 
   const filteredItems = activeCategory === "Todos" 
     ? portfolioItems 
     : portfolioItems.filter(item => item.category === activeCategory);
-
-  const whatsappNumber = "5547999999999";
-  const message = encodeURIComponent("Olá! Vi o portfólio e gostaria de saber mais sobre os serviços.");
 
   const handleVideoClick = (videoUrl: string, title: string) => {
     setSelectedVideo({ url: videoUrl, title });
@@ -127,10 +139,10 @@ const Portfolio = () => {
                 animate={isInView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ duration: 0.5, delay: 0.1 * index }}
                 className="group relative aspect-video rounded-xl overflow-hidden cursor-pointer"
-                onClick={() => handleVideoClick(item.videoUrl, item.title)}
+                onClick={() => handleVideoClick(item.video_url, item.title)}
               >
                 <img
-                  src={item.thumbnail}
+                  src={item.thumbnail_url}
                   alt={item.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />

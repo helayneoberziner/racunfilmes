@@ -2,13 +2,13 @@
  import { X, ChevronLeft, ChevronRight } from "lucide-react";
  import { useEffect, useCallback } from "react";
  
- interface PhotoLightboxProps {
-   isOpen: boolean;
-   onClose: () => void;
-   images: { id: number; src: string; title: string }[];
-   currentIndex: number;
-   onNavigate: (direction: "prev" | "next") => void;
- }
+interface PhotoLightboxProps {
+  isOpen: boolean;
+  onClose: () => void;
+  images: { id: string | number; src: string; title: string }[];
+  currentIndex: number;
+  onNavigate: (direction: "prev" | "next") => void;
+}
  
  const PhotoLightbox = ({ isOpen, onClose, images, currentIndex, onNavigate }: PhotoLightboxProps) => {
    const currentImage = images[currentIndex];

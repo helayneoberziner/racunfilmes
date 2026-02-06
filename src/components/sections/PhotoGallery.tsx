@@ -1,70 +1,76 @@
- import { motion } from "framer-motion";
- import { useInView } from "framer-motion";
- import { useRef, useState } from "react";
- import { ZoomIn } from "lucide-react";
- import PhotoLightbox from "@/components/PhotoLightbox";
- 
- // Placeholder photos - você pode substituir por fotos reais
- const photoItems = [
-   {
-     id: 1,
-     title: "Ensaio Corporativo",
-     src: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=800&h=600&fit=crop",
-     category: "Corporativo",
-   },
-   {
-     id: 2,
-     title: "Retrato Profissional",
-     src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop",
-     category: "Retratos",
-   },
-   {
-     id: 3,
-     title: "Produto Premium",
-     src: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&h=600&fit=crop",
-     category: "Produtos",
-   },
-   {
-     id: 4,
-     title: "Arquitetura Comercial",
-     src: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop",
-     category: "Arquitetura",
-   },
-   {
-     id: 5,
-     title: "Evento Empresarial",
-     src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=600&fit=crop",
-     category: "Eventos",
-   },
-   {
-     id: 6,
-     title: "Branding Session",
-     src: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&h=600&fit=crop",
-     category: "Branding",
-   },
- ];
- 
- const PhotoGallery = () => {
-   const ref = useRef(null);
-   const isInView = useInView(ref, { once: true, margin: "-100px" });
-   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
- 
-   const handlePhotoClick = (index: number) => {
-     setSelectedIndex(index);
-   };
- 
-   const handleNavigate = (direction: "prev" | "next") => {
-     if (selectedIndex === null) return;
-     if (direction === "prev") {
-       setSelectedIndex(selectedIndex === 0 ? photoItems.length - 1 : selectedIndex - 1);
-     } else {
-       setSelectedIndex(selectedIndex === photoItems.length - 1 ? 0 : selectedIndex + 1);
-     }
-   };
- 
-   const closeLightbox = () => {
-     setSelectedIndex(null);
-   };
+import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useRef, useState } from "react";
+import { ZoomIn } from "lucide-react";
+import PhotoLightbox from "@/components/PhotoLightbox";
+import { usePortfolioPhotos } from "@/hooks/usePortfolio";
+
+// Fallback photos - shown when database is empty
+const fallbackPhotos = [
+  {
+    id: "1",
+    title: "Ensaio Corporativo",
+    src: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=800&h=600&fit=crop",
+  },
+  {
+    id: "2",
+    title: "Retrato Profissional",
+    src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop",
+  },
+  {
+    id: "3",
+    title: "Produto Premium",
+    src: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&h=600&fit=crop",
+  },
+  {
+    id: "4",
+    title: "Arquitetura Comercial",
+    src: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop",
+  },
+  {
+    id: "5",
+    title: "Evento Empresarial",
+    src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=600&fit=crop",
+  },
+  {
+    id: "6",
+    title: "Branding Session",
+    src: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&h=600&fit=crop",
+  },
+];
+
+const PhotoGallery = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
+  const { data: dbPhotos = [] } = usePortfolioPhotos();
+
+  // Use database photos if available, otherwise fallback
+  const photoItems = dbPhotos.length > 0
+    ? dbPhotos.map(p => ({
+        id: p.id,
+        title: p.title || 'Foto',
+        src: p.image_url,
+      }))
+    : fallbackPhotos;
+
+  const handlePhotoClick = (index: number) => {
+    setSelectedIndex(index);
+  };
+
+  const handleNavigate = (direction: "prev" | "next") => {
+    if (selectedIndex === null) return;
+    if (direction === "prev") {
+      setSelectedIndex(selectedIndex === 0 ? photoItems.length - 1 : selectedIndex - 1);
+    } else {
+      setSelectedIndex(selectedIndex === photoItems.length - 1 ? 0 : selectedIndex + 1);
+    }
+  };
+
+  const closeLightbox = () => {
+    setSelectedIndex(null);
+  };
  
    return (
      <>
@@ -112,10 +118,9 @@
                  <div className="w-12 h-12 rounded-full bg-gradient-primary flex items-center justify-center glow-primary mb-2 transform group-hover:scale-110 transition-transform duration-300">
                    <ZoomIn className="w-5 h-5 text-primary-foreground" />
                  </div>
-                 <h4 className="text-sm font-bold text-center px-2">{photo.title}</h4>
-                 <span className="text-xs text-primary">{photo.category}</span>
-               </div>
-             </motion.div>
+                  <h4 className="text-sm font-bold text-center px-2">{photo.title}</h4>
+                </div>
+              </motion.div>
            ))}
          </div>
        </div>
