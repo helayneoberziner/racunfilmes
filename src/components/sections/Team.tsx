@@ -2,22 +2,23 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Instagram, Linkedin } from "lucide-react";
+import { useTeamMembers } from "@/hooks/useTeam";
 
-const team = [
+const fallbackTeam = [
   {
-    id: 1,
+    id: "1",
     name: "[Nome 1]",
     role: "Fundador & Diretor Criativo",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+    image_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
     bio: "[Sua bio aqui - experiência, visão e paixão pelo audiovisual]",
     instagram: "https://instagram.com/",
     linkedin: "https://linkedin.com/in/",
   },
   {
-    id: 2,
+    id: "2",
     name: "[Nome 2]",
     role: "[Cargo]",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
+    image_url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
     bio: "[Bio aqui - experiência e contribuição para a equipe]",
     instagram: "https://instagram.com/",
     linkedin: "https://linkedin.com/in/",
@@ -27,6 +28,9 @@ const team = [
 const Team = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { data: dbMembers } = useTeamMembers();
+
+  const team = dbMembers && dbMembers.length > 0 ? dbMembers : fallbackTeam;
 
   return (
     <section id="equipe" className="py-16 md:py-20">
@@ -49,7 +53,7 @@ const Team = () => {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <div className={`grid gap-6 max-w-4xl mx-auto ${team.length === 1 ? 'max-w-md' : team.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
           {team.map((member, index) => (
             <motion.div
               key={member.id}
@@ -61,7 +65,7 @@ const Team = () => {
               <div className="relative mb-4">
                 <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-primary/30">
                   <img
-                    src={member.image}
+                    src={member.image_url || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop"}
                     alt={member.name}
                     className="w-full h-full object-cover"
                   />
@@ -70,27 +74,33 @@ const Team = () => {
 
               <h3 className="text-lg font-bold">{member.name}</h3>
               <p className="text-primary text-sm font-medium mb-2">{member.role}</p>
-              <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
-                {member.bio}
-              </p>
+              {member.bio && (
+                <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
+                  {member.bio}
+                </p>
+              )}
 
-              <div className="flex items-center gap-2">
-                <a
-                  href={member.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
-                >
-                  <Instagram className="w-4 h-4" />
-                </a>
-                <a
-                  href={member.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
-                >
-                  <Linkedin className="w-4 h-4" />
-                </a>
+              <div className="flex items-center gap-2 mt-auto">
+                {member.instagram && (
+                  <a
+                    href={member.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+                  >
+                    <Instagram className="w-4 h-4" />
+                  </a>
+                )}
+                {member.linkedin && (
+                  <a
+                    href={member.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+                  >
+                    <Linkedin className="w-4 h-4" />
+                  </a>
+                )}
               </div>
             </motion.div>
           ))}
