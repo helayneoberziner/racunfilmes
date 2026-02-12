@@ -1,4 +1,4 @@
-import { Instagram, Youtube, Linkedin, Settings } from "lucide-react";
+import { Instagram, Youtube, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -56,15 +56,6 @@ const Footer = () => {
               aria-label="YouTube"
             >
               <Youtube className="w-4 h-4" />
-            </a>
-            <a
-              href="https://linkedin.com/company/racunfilmes"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="w-4 h-4" />
             </a>
           </div>
         </div>
