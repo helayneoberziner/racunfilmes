@@ -40,7 +40,7 @@ const Footer = () => {
           {/* Social Links */}
           <div className="flex gap-3">
             <a
-              href="https://instagram.com/racunfilmes"
+              href="https://instagram.com/agenciaracun"
               target="_blank"
               rel="noopener noreferrer"
               className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all"
@@ -49,7 +49,7 @@ const Footer = () => {
               <Instagram className="w-4 h-4" />
             </a>
             <a
-              href="https://youtube.com/@racunfilmes"
+              href="https://youtube.com/@agenciaracun"
               target="_blank"
               rel="noopener noreferrer"
               className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all"
