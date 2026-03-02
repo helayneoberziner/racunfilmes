@@ -69,7 +69,7 @@ const About = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
           >
-            <div className="aspect-square rounded-2xl border-gradient bg-card p-6 relative overflow-hidden">
+            <div className="aspect-auto sm:aspect-square rounded-2xl border-gradient bg-card p-6 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent" />
               <div className="relative z-10 h-full flex flex-col justify-center items-center text-center">
                 <div className="w-20 h-20 rounded-full bg-gradient-primary flex items-center justify-center mb-5 glow-primary">

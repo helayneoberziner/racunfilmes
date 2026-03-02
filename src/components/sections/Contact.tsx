@@ -137,7 +137,7 @@ const Contact = () => {
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-5 gap-10 max-w-5xl mx-auto">
+        <div className="grid lg:grid-cols-5 gap-6 sm:gap-10 max-w-5xl mx-auto">
           {/* Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}

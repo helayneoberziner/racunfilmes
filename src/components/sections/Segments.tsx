@@ -68,20 +68,20 @@ const Segments = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
           {segments.map((segment, index) => (
             <motion.div
               key={segment.title}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.5, delay: 0.1 * index }}
-              className="group relative p-5 rounded-xl border-gradient bg-card text-center card-hover"
+              className="group relative p-3 sm:p-5 rounded-xl border-gradient bg-card text-center card-hover"
             >
-              <div className={`w-14 h-14 mx-auto rounded-xl bg-gradient-to-br ${segment.color} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}>
-                <segment.icon className="w-7 h-7 text-white" />
+              <div className={`w-11 h-11 sm:w-14 sm:h-14 mx-auto rounded-xl bg-gradient-to-br ${segment.color} flex items-center justify-center mb-2 sm:mb-3 group-hover:scale-110 transition-transform duration-300`}>
+                <segment.icon className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
               </div>
-              <h3 className="font-bold mb-1">{segment.title}</h3>
-              <p className="text-xs text-muted-foreground">{segment.description}</p>
+              <h3 className="font-bold text-sm sm:text-base mb-1">{segment.title}</h3>
+              <p className="text-[10px] sm:text-xs text-muted-foreground">{segment.description}</p>
             </motion.div>
           ))}
         </div>

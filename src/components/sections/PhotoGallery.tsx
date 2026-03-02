@@ -102,7 +102,7 @@ const PhotoGallery = () => {
                }`}
                onClick={() => handlePhotoClick(index)}
              >
-               <div className={`w-full ${index === 0 || index === 5 ? "h-[400px] md:h-[500px]" : "h-[200px] md:h-[240px]"}`}>
+               <div className={`w-full ${index === 0 || index === 5 ? "h-[250px] sm:h-[400px] md:h-[500px]" : "h-[150px] sm:h-[200px] md:h-[240px]"}`}>
                  <img
                    src={photo.src}
                    alt={photo.title}
