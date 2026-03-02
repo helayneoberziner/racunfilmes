@@ -113,13 +113,13 @@ const Portfolio = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex flex-wrap justify-center gap-2 mb-10"
+            className="flex flex-wrap justify-center gap-2 mb-10 px-2"
           >
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${
                   activeCategory === category
                     ? "bg-gradient-primary text-primary-foreground glow-primary"
                     : "bg-secondary text-muted-foreground hover:text-foreground hover:bg-secondary/80"

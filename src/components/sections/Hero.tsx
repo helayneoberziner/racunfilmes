@@ -8,7 +8,7 @@ const Hero = () => {
   const message = encodeURIComponent("Olá! Gostaria de saber mais sobre os serviços da Racun Filmes.");
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section id="home" className="relative min-h-[100svh] flex items-center justify-center overflow-hidden">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
         <img
@@ -21,7 +21,7 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="container-custom relative z-10 pt-20">
+      <div className="container-custom relative z-10 pt-20 px-5 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -37,7 +37,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6"
+            className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-4 sm:mb-6"
           >
             Vídeos que{" "}
             <span className="text-gradient glow-text">vendem</span> e{" "}
@@ -48,7 +48,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-lg sm:text-xl text-muted-foreground max-w-xl mx-auto mb-10"
+            className="text-base sm:text-xl text-muted-foreground max-w-xl mx-auto mb-8 sm:mb-10 px-2"
           >
             Produzimos conteúdo audiovisual estratégico para empresas 
             que querem se destacar no mercado.

@@ -35,7 +35,7 @@ const Navbar = () => {
           : "bg-transparent"
       }`}
     >
-      <nav className="container-custom flex h-20 items-center justify-between">
+      <nav className="container-custom flex h-16 sm:h-20 items-center justify-between">
         {/* Logo */}
         <a href="#home" className="flex items-center gap-2">
           <span className="text-2xl font-bold tracking-tight">

@@ -61,7 +61,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-border mt-8 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
+        <div className="border-t border-border mt-8 pt-6 pb-16 sm:pb-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
           <p>© {currentYear} Racun Filmes. Todos os direitos reservados.</p>
           <div className="flex items-center gap-4">
             <a href="#" className="hover:text-primary transition-colors">Privacidade</a>
