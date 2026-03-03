@@ -2,7 +2,7 @@ import { MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
 const WhatsAppButton = () => {
-  const whatsappNumber = "5547999999999"; // Replace with actual number
+  const whatsappNumber = "554732096098";
   const message = encodeURIComponent("Olá! Gostaria de saber mais sobre os serviços da Racun Filmes.");
   
   return (
