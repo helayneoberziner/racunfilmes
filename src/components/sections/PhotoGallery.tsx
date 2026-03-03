@@ -103,11 +103,13 @@ const PhotoGallery = () => {
                onClick={() => handlePhotoClick(index)}
              >
                <div className={`w-full ${index === 0 || index === 5 ? "h-[250px] sm:h-[400px] md:h-[500px]" : "h-[150px] sm:h-[200px] md:h-[240px]"}`}>
-                 <img
-                   src={photo.src}
-                   alt={photo.title}
-                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                 />
+                  <img
+                    src={photo.src}
+                    alt={photo.title}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
                </div>
                
                {/* Overlay */}
