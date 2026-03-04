@@ -8,7 +8,7 @@ const navLinks = [
   { name: "Quem Somos", href: "#about" },
   { name: "Serviços", href: "#services" },
   { name: "Portfólio", href: "#portfolio" },
-  { name: "Processo", href: "#process" },
+  { name: "Agência", href: "https://agenciaracun.com", external: true },
   { name: "Contato", href: "#contact" },
 ];
 
@@ -50,6 +50,7 @@ const Navbar = () => {
             <a
               key={link.name}
               href={link.href}
+              {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               {link.name}
@@ -88,6 +89,7 @@ const Navbar = () => {
                 <a
                   key={link.name}
                   href={link.href}
+                  {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="text-lg font-medium text-muted-foreground transition-colors hover:text-foreground"
                 >
