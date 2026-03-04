@@ -12,6 +12,18 @@ const navLinks = [
   { name: "Contato", href: "#contact" },
 ];
 
+const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  if (href.startsWith("#")) {
+    e.preventDefault();
+    const target = document.querySelector(href);
+    if (target) {
+      const offset = 80;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  }
+};
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -37,7 +49,7 @@ const Navbar = () => {
     >
       <nav className="container-custom flex h-16 sm:h-20 items-center justify-between">
         {/* Logo */}
-        <a href="#home" className="flex items-center gap-2">
+        <a href="#home" onClick={(e) => handleSmoothScroll(e, "#home")} className="flex items-center gap-2">
           <span className="text-2xl font-bold tracking-tight">
             <span className="text-gradient">RACUN</span>
             <span className="text-foreground"> FILMES</span>
@@ -50,14 +62,14 @@ const Navbar = () => {
             <a
               key={link.name}
               href={link.href}
-              {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : { onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleSmoothScroll(e, link.href) })}
               className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               {link.name}
             </a>
           ))}
           <Button variant="hero" size="default" asChild>
-            <a href="#contact">Solicitar Orçamento</a>
+            <a href="#contact" onClick={(e) => handleSmoothScroll(e, "#contact")}>Solicitar Orçamento</a>
           </Button>
         </div>
 
@@ -90,14 +102,14 @@ const Navbar = () => {
                   key={link.name}
                   href={link.href}
                   {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={(e) => { if (!link.external) handleSmoothScroll(e, link.href); setIsMobileMenuOpen(false); }}
                   className="text-lg font-medium text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {link.name}
                 </a>
               ))}
               <Button variant="hero" size="lg" asChild className="mt-4">
-                <a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>
+                <a href="#contact" onClick={(e) => { handleSmoothScroll(e, "#contact"); setIsMobileMenuOpen(false); }}>
                   Solicitar Orçamento
                 </a>
               </Button>
