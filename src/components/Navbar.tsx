@@ -8,7 +8,7 @@ const navLinks = [
   { name: "Quem Somos", href: "#about" },
   { name: "Serviços", href: "#services" },
   { name: "Portfólio", href: "#portfolio" },
-  { name: "Agência", href: "https://agenciaracun.com", external: true },
+  { name: "Marketing", href: "https://agenciaracun.com", external: true },
   { name: "Contato", href: "#contact" },
 ];
 
