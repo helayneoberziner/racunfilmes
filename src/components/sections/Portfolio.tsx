@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Play, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import VideoModal from "@/components/VideoModal";
@@ -73,6 +73,41 @@ const Portfolio = () => {
         video_url: v.video_url,
       }))
     : fallbackVideos;
+
+  // Inject VideoObject JSON-LD structured data
+  useEffect(() => {
+    const existingScript = document.getElementById('portfolio-jsonld');
+    if (existingScript) existingScript.remove();
+
+    const videoObjects = portfolioItems.map(item => ({
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "name": item.title,
+      "description": `${item.title} - Produção audiovisual da Racun Filmes em ${item.category}`,
+      "thumbnailUrl": item.thumbnail_url,
+      "contentUrl": item.video_url,
+      "uploadDate": new Date().toISOString().split('T')[0],
+      "publisher": {
+        "@type": "Organization",
+        "name": "Racun Filmes",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://storage.googleapis.com/gpt-engineer-file-uploads/826kJMydi0aEjiHRsP2wIyRlxSi1/uploads/1770861192625-495478897_18084704254646234_2892213189512894127_n.jpg"
+        }
+      }
+    }));
+
+    const script = document.createElement('script');
+    script.id = 'portfolio-jsonld';
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(videoObjects);
+    document.head.appendChild(script);
+
+    return () => {
+      const el = document.getElementById('portfolio-jsonld');
+      if (el) el.remove();
+    };
+  }, [portfolioItems]);
 
   const filteredItems = activeCategory === "Todos" 
     ? portfolioItems 
