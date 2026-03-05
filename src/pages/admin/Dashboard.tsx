@@ -8,7 +8,8 @@ import {
   TrendingUp,
   Clock,
   CheckCircle,
-  UsersRound
+  UsersRound,
+  FileText
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -127,6 +128,20 @@ export default function Dashboard() {
                   <CardTitle>Equipe</CardTitle>
                   <CardDescription>
                     Gerencie os membros da equipe
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            </Link>
+
+            <Link to="/admin/content">
+              <Card className="border-gradient bg-card/50 card-hover cursor-pointer h-full">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center mb-4">
+                    <FileText className="h-6 w-6 text-primary" />
+                  </div>
+                  <CardTitle>Conteúdo do Site</CardTitle>
+                  <CardDescription>
+                    Atualize textos e informações das seções
                   </CardDescription>
                 </CardHeader>
               </Card>
