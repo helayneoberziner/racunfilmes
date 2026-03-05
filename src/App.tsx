@@ -13,6 +13,7 @@ import Dashboard from "./pages/admin/Dashboard";
 import Leads from "./pages/admin/Leads";
 import PortfolioAdmin from "./pages/admin/Portfolio";
 import TeamAdmin from "./pages/admin/Team";
+import ContentAdmin from "./pages/admin/Content";
 
 const queryClient = new QueryClient();
 
@@ -58,6 +59,14 @@ const App = () => (
               element={
                 <ProtectedRoute requireAdmin>
                   <TeamAdmin />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/content"
+              element={
+                <ProtectedRoute requireAdmin>
+                  <ContentAdmin />
                 </ProtectedRoute>
               }
             />
