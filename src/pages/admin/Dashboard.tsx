@@ -90,7 +90,7 @@ export default function Dashboard() {
         {/* Quick Actions */}
         <div>
           <h2 className="text-xl font-semibold mb-4">Acesso Rápido</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <Link to="/admin/leads">
               <Card className="border-gradient bg-card/50 card-hover cursor-pointer h-full">
                 <CardHeader>
