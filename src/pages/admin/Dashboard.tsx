@@ -4,13 +4,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useLeads } from '@/hooks/useLeads';
 import { 
   Users, 
-  MessageSquare, 
   Film, 
   TrendingUp,
   Clock,
   CheckCircle,
-  XCircle,
-  Phone
+  UsersRound
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -106,29 +104,33 @@ export default function Dashboard() {
               </Card>
             </Link>
 
-            <Card className="border-gradient bg-card/50 opacity-60">
-              <CardHeader>
-                <div className="w-12 h-12 bg-muted rounded-xl flex items-center justify-center mb-4">
-                  <Film className="h-6 w-6 text-muted-foreground" />
-                </div>
-                <CardTitle className="text-muted-foreground">Portfólio</CardTitle>
-                <CardDescription>
-                  Em breve - Gerencie os vídeos e projetos
-                </CardDescription>
-              </CardHeader>
-            </Card>
+            <Link to="/admin/portfolio">
+              <Card className="border-gradient bg-card/50 card-hover cursor-pointer h-full">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center mb-4">
+                    <Film className="h-6 w-6 text-primary" />
+                  </div>
+                  <CardTitle>Portfólio</CardTitle>
+                  <CardDescription>
+                    Gerencie os vídeos e projetos
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            </Link>
 
-            <Card className="border-gradient bg-card/50 opacity-60">
-              <CardHeader>
-                <div className="w-12 h-12 bg-muted rounded-xl flex items-center justify-center mb-4">
-                  <MessageSquare className="h-6 w-6 text-muted-foreground" />
-                </div>
-                <CardTitle className="text-muted-foreground">Conteúdo do Site</CardTitle>
-                <CardDescription>
-                  Em breve - Atualize textos e informações
-                </CardDescription>
-              </CardHeader>
-            </Card>
+            <Link to="/admin/team">
+              <Card className="border-gradient bg-card/50 card-hover cursor-pointer h-full">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center mb-4">
+                    <UsersRound className="h-6 w-6 text-primary" />
+                  </div>
+                  <CardTitle>Equipe</CardTitle>
+                  <CardDescription>
+                    Gerencie os membros da equipe
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            </Link>
           </div>
         </div>
 
