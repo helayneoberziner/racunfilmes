@@ -352,6 +352,28 @@ export default function Content() {
             ]}
           />
 
+          {/* Testimonials */}
+          <ListSectionEditor
+            label="Depoimentos"
+            sectionKey="testimonials"
+            content={getSection('testimonials')}
+            onSave={handleSave}
+            isSaving={savingKey === 'testimonials'}
+            itemsKey="items"
+            headerFields={[
+              { key: 'tag', label: 'Tag', type: 'text', placeholder: 'Depoimentos' },
+              { key: 'title_prefix', label: 'Título (prefixo)', type: 'text', placeholder: 'O que' },
+              { key: 'title_highlight', label: 'Título (destaque)', type: 'text', placeholder: 'clientes dizem' },
+              { key: 'logos_label', label: 'Texto acima dos logos', type: 'text', placeholder: 'Empresas que confiam em nós' },
+            ]}
+            itemFields={[
+              { key: 'name', label: 'Nome', type: 'text', placeholder: 'Nome do cliente' },
+              { key: 'company', label: 'Empresa', type: 'text', placeholder: 'Nome da empresa' },
+              { key: 'content', label: 'Depoimento', type: 'textarea', placeholder: 'Texto do depoimento...' },
+              { key: 'rating', label: 'Nota (1-5)', type: 'text', placeholder: '5' },
+            ]}
+          />
+
           {/* CTA */}
           <SectionEditor
             label="CTA (Chamada Final)"

@@ -2,39 +2,25 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Quote, Star } from "lucide-react";
+import { useSectionContent } from "@/hooks/useSiteContent";
 
-const testimonials = [
-  {
-    name: "Carlos Silva",
-    company: "Construtora Premium",
-    content: "O vídeo institucional elevou nossa imagem e gerou resultados reais.",
-    rating: 5,
-  },
-  {
-    name: "Marina Santos",
-    company: "Restaurante Sabor & Arte",
-    content: "Aumentamos em 300% o engajamento após a primeira campanha.",
-    rating: 5,
-  },
-  {
-    name: "Roberto Lima",
-    company: "Tech Solutions",
-    content: "Profissionalismo do início ao fim. Entrega além das expectativas.",
-    rating: 5,
-  },
-];
-
-const clientLogos = [
-  "Construtora Premium",
-  "Tech Solutions",
-  "Sabor & Arte",
-  "Imobiliária Vale",
-  "Grupo Empresarial SC",
-];
+const DEFAULTS = {
+  tag: "Depoimentos",
+  title_prefix: "O que",
+  title_highlight: "clientes dizem",
+  logos_label: "Empresas que confiam em nós",
+  items: [
+    { name: "Carlos Silva", company: "Construtora Premium", content: "O vídeo institucional elevou nossa imagem e gerou resultados reais.", rating: "5" },
+    { name: "Marina Santos", company: "Restaurante Sabor & Arte", content: "Aumentamos em 300% o engajamento após a primeira campanha.", rating: "5" },
+    { name: "Roberto Lima", company: "Tech Solutions", content: "Profissionalismo do início ao fim. Entrega além das expectativas.", rating: "5" },
+  ],
+};
 
 const Testimonials = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { content } = useSectionContent("testimonials");
+  const c = { ...DEFAULTS, ...content };
 
   return (
     <section className="py-20 md:py-28">
@@ -47,15 +33,15 @@ const Testimonials = () => {
           className="text-center max-w-2xl mx-auto mb-12"
         >
           <span className="text-primary font-semibold text-sm uppercase tracking-wider">
-            Depoimentos
+            {c.tag}
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-4 mb-4">
-            O que <span className="text-gradient">clientes dizem</span>
+            {c.title_prefix} <span className="text-gradient">{c.title_highlight}</span>
           </h2>
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 mb-14">
-          {testimonials.map((testimonial, index) => (
+          {(c.items as any[]).map((testimonial, index) => (
             <motion.div
               key={testimonial.name}
               initial={{ opacity: 0, y: 30 }}
@@ -66,7 +52,7 @@ const Testimonials = () => {
               <Quote className="w-8 h-8 text-primary/20 mb-3" />
               
               <div className="flex gap-1 mb-3">
-                {[...Array(testimonial.rating)].map((_, i) => (
+                {[...Array(Number(testimonial.rating) || 5)].map((_, i) => (
                   <Star key={i} className="w-3 h-3 text-yellow-500" fill="currentColor" />
                 ))}
               </div>
@@ -95,9 +81,9 @@ const Testimonials = () => {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="text-center"
         >
-          <p className="text-sm text-muted-foreground mb-6">Empresas que confiam em nós</p>
+          <p className="text-sm text-muted-foreground mb-6">{c.logos_label}</p>
           <div className="flex flex-wrap justify-center gap-6">
-            {clientLogos.map((logo) => (
+            {(c.items as any[]).map((t: any) => t.company).filter(Boolean).map((logo: string) => (
               <div
                 key={logo}
                 className="px-5 py-2 rounded-lg bg-card border border-border text-sm text-muted-foreground"
