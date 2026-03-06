@@ -35,8 +35,7 @@ export function useSiteContent() {
     mutationFn: async ({ sectionKey, content }: { sectionKey: string; content: Record<string, any> }) => {
       const { error } = await supabase
         .from('site_content')
-        .update({ content })
-        .eq('section_key', sectionKey);
+        .upsert({ section_key: sectionKey, content }, { onConflict: 'section_key' });
 
       if (error) throw error;
     },
