@@ -2,39 +2,25 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Quote, Star } from "lucide-react";
+import { useSectionContent } from "@/hooks/useSiteContent";
 
-const testimonials = [
-  {
-    name: "Carlos Silva",
-    company: "Construtora Premium",
-    content: "O vídeo institucional elevou nossa imagem e gerou resultados reais.",
-    rating: 5,
-  },
-  {
-    name: "Marina Santos",
-    company: "Restaurante Sabor & Arte",
-    content: "Aumentamos em 300% o engajamento após a primeira campanha.",
-    rating: 5,
-  },
-  {
-    name: "Roberto Lima",
-    company: "Tech Solutions",
-    content: "Profissionalismo do início ao fim. Entrega além das expectativas.",
-    rating: 5,
-  },
-];
-
-const clientLogos = [
-  "Construtora Premium",
-  "Tech Solutions",
-  "Sabor & Arte",
-  "Imobiliária Vale",
-  "Grupo Empresarial SC",
-];
+const DEFAULTS = {
+  tag: "Depoimentos",
+  title_prefix: "O que",
+  title_highlight: "clientes dizem",
+  logos_label: "Empresas que confiam em nós",
+  items: [
+    { name: "Carlos Silva", company: "Construtora Premium", content: "O vídeo institucional elevou nossa imagem e gerou resultados reais.", rating: "5" },
+    { name: "Marina Santos", company: "Restaurante Sabor & Arte", content: "Aumentamos em 300% o engajamento após a primeira campanha.", rating: "5" },
+    { name: "Roberto Lima", company: "Tech Solutions", content: "Profissionalismo do início ao fim. Entrega além das expectativas.", rating: "5" },
+  ],
+};
 
 const Testimonials = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { content } = useSectionContent("testimonials");
+  const c = { ...DEFAULTS, ...content };
 
   return (
     <section className="py-20 md:py-28">
