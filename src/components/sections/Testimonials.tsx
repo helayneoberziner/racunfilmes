@@ -81,9 +81,9 @@ const Testimonials = () => {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="text-center"
         >
-          <p className="text-sm text-muted-foreground mb-6">Empresas que confiam em nós</p>
+          <p className="text-sm text-muted-foreground mb-6">{c.logos_label}</p>
           <div className="flex flex-wrap justify-center gap-6">
-            {clientLogos.map((logo) => (
+            {(c.items as any[]).map((t: any) => t.company).filter(Boolean).map((logo: string) => (
               <div
                 key={logo}
                 className="px-5 py-2 rounded-lg bg-card border border-border text-sm text-muted-foreground"
