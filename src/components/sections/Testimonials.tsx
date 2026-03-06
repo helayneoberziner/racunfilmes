@@ -52,7 +52,7 @@ const Testimonials = () => {
               <Quote className="w-8 h-8 text-primary/20 mb-3" />
               
               <div className="flex gap-1 mb-3">
-                {[...Array(testimonial.rating)].map((_, i) => (
+                {[...Array(Number(testimonial.rating) || 5)].map((_, i) => (
                   <Star key={i} className="w-3 h-3 text-yellow-500" fill="currentColor" />
                 ))}
               </div>
