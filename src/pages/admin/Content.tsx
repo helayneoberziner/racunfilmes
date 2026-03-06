@@ -294,6 +294,64 @@ export default function Content() {
             ]}
           />
 
+          {/* Segments */}
+          <ListSectionEditor
+            label="Segmentos"
+            sectionKey="segments"
+            content={getSection('segments')}
+            onSave={handleSave}
+            isSaving={savingKey === 'segments'}
+            itemsKey="items"
+            headerFields={[
+              { key: 'tag', label: 'Tag', type: 'text', placeholder: 'Segmentos' },
+              { key: 'title_prefix', label: 'Título (prefixo)', type: 'text', placeholder: 'Mercados que' },
+              { key: 'title_highlight', label: 'Título (destaque)', type: 'text', placeholder: 'atendemos' },
+              { key: 'subtitle', label: 'Subtítulo', type: 'textarea', placeholder: 'Experiência em diferentes segmentos...' },
+            ]}
+            itemFields={[
+              { key: 'title', label: 'Título', type: 'text', placeholder: 'Nome do segmento' },
+              { key: 'description', label: 'Descrição', type: 'text', placeholder: 'Descrição curta' },
+            ]}
+          />
+
+          {/* Objectives */}
+          <ListSectionEditor
+            label="Objetivos"
+            sectionKey="objectives"
+            content={getSection('objectives')}
+            onSave={handleSave}
+            isSaving={savingKey === 'objectives'}
+            itemsKey="items"
+            headerFields={[
+              { key: 'tag', label: 'Tag', type: 'text', placeholder: 'Propósito' },
+              { key: 'title_prefix', label: 'Título (prefixo)', type: 'text', placeholder: 'O vídeo certo para o' },
+              { key: 'title_highlight', label: 'Título (destaque)', type: 'text', placeholder: 'objetivo certo' },
+              { key: 'subtitle', label: 'Subtítulo', type: 'textarea', placeholder: 'Trabalhamos com estratégia...' },
+            ]}
+            itemFields={[
+              { key: 'label', label: 'Texto', type: 'text', placeholder: 'Ex: Vender mais' },
+            ]}
+          />
+
+          {/* Process */}
+          <ListSectionEditor
+            label="Processo"
+            sectionKey="process"
+            content={getSection('process')}
+            onSave={handleSave}
+            isSaving={savingKey === 'process'}
+            itemsKey="items"
+            headerFields={[
+              { key: 'tag', label: 'Tag', type: 'text', placeholder: 'Processo' },
+              { key: 'title_prefix', label: 'Título (prefixo)', type: 'text', placeholder: 'Como' },
+              { key: 'title_highlight', label: 'Título (destaque)', type: 'text', placeholder: 'trabalhamos' },
+              { key: 'subtitle', label: 'Subtítulo', type: 'textarea', placeholder: 'Um processo estruturado...' },
+            ]}
+            itemFields={[
+              { key: 'title', label: 'Título', type: 'text', placeholder: 'Ex: Briefing' },
+            ]}
+          />
+
           {/* Services */}
           <ListSectionEditor
             label="Serviços"
