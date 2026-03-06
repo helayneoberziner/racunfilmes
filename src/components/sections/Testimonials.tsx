@@ -33,10 +33,10 @@ const Testimonials = () => {
           className="text-center max-w-2xl mx-auto mb-12"
         >
           <span className="text-primary font-semibold text-sm uppercase tracking-wider">
-            Depoimentos
+            {c.tag}
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-4 mb-4">
-            O que <span className="text-gradient">clientes dizem</span>
+            {c.title_prefix} <span className="text-gradient">{c.title_highlight}</span>
           </h2>
         </motion.div>
 
