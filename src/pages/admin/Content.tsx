@@ -5,8 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Save, Loader2, Plus, Trash2 } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { Save, Loader2, Plus, Trash2, Upload, X } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 
 interface SectionEditorProps {
   label: string;
