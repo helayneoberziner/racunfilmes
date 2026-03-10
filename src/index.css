@@ -111,7 +111,7 @@
 
   .card-hover:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 60px -15px hsl(252 100% 50% / 0.3);
+    box-shadow: 0 20px 60px -15px hsl(39 50% 65% / 0.3);
   }
 
   .section-padding {
