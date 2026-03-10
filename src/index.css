@@ -8,43 +8,43 @@
 
 @layer base {
   :root {
-    --background: 240 10% 4%;
-    --foreground: 0 0% 98%;
+    --background: 0 0% 4%;
+    --foreground: 0 0% 100%;
 
-    --card: 240 10% 6%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 11%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 240 10% 6%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 11%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 252 100% 34%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 39 42% 59%;
+    --primary-foreground: 0 0% 4%;
 
-    --secondary: 240 10% 12%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 0 0% 11%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 240 10% 15%;
-    --muted-foreground: 240 5% 60%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 48%;
 
-    --accent: 252 100% 34%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 39 42% 59%;
+    --accent-foreground: 0 0% 4%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 10% 18%;
-    --input: 240 10% 18%;
-    --ring: 252 100% 34%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 39 42% 59%;
 
     --radius: 0.75rem;
 
-    /* Custom Racun variables */
-    --glow-primary: 252 100% 50%;
-    --surface-elevated: 240 10% 8%;
-    --text-secondary: 240 5% 70%;
-    --gradient-primary: linear-gradient(135deg, hsl(252 100% 34%) 0%, hsl(280 100% 40%) 100%);
-    --gradient-dark: linear-gradient(180deg, hsl(240 10% 4%) 0%, hsl(240 10% 2%) 100%);
-    --shadow-glow: 0 0 60px -12px hsl(252 100% 50% / 0.4);
+    /* Custom variables */
+    --glow-primary: 39 50% 65%;
+    --surface-elevated: 0 0% 13%;
+    --text-secondary: 0 0% 48%;
+    --gradient-primary: linear-gradient(135deg, hsl(39 42% 59%) 0%, hsl(30 50% 45%) 100%);
+    --gradient-dark: linear-gradient(180deg, hsl(0 0% 4%) 0%, hsl(0 0% 2%) 100%);
+    --shadow-glow: 0 0 60px -12px hsl(39 50% 65% / 0.4);
   }
 
   .dark {
