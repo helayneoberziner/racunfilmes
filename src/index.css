@@ -145,10 +145,10 @@
 
   @keyframes glow {
     from {
-      box-shadow: 0 0 30px -10px hsl(252 100% 50% / 0.4);
+      box-shadow: 0 0 30px -10px hsl(39 50% 65% / 0.4);
     }
     to {
-      box-shadow: 0 0 60px -10px hsl(252 100% 50% / 0.6);
+      box-shadow: 0 0 60px -10px hsl(39 50% 65% / 0.6);
     }
   }
 }
