@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useSectionContent } from "@/hooks/useSiteContent";
 
 const navLinks = [
   { name: "Início", href: "#home" },
@@ -27,6 +28,8 @@ const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { content } = useSectionContent('general');
+  const logoUrl = content?.logo_url || '';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,10 +53,14 @@ const Navbar = () => {
       <nav className="container-custom flex h-16 sm:h-20 items-center justify-between">
         {/* Logo */}
         <a href="#home" onClick={(e) => handleSmoothScroll(e, "#home")} className="flex items-center gap-2">
-          <span className="text-2xl font-bold tracking-tight">
-            <span className="text-gradient">RACUN</span>
-            <span className="text-foreground"> FILMES</span>
-          </span>
+          {logoUrl ? (
+            <img src={logoUrl} alt="Racun Filmes" className="h-8 sm:h-10 w-auto object-contain" />
+          ) : (
+            <span className="text-2xl font-bold tracking-tight">
+              <span className="text-gradient">RACUN</span>
+              <span className="text-foreground"> FILMES</span>
+            </span>
+          )}
         </a>
 
         {/* Desktop Navigation */}
