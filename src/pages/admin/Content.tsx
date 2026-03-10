@@ -5,8 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Save, Loader2, Plus, Trash2 } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { Save, Loader2, Plus, Trash2, Upload, X } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 
 interface SectionEditorProps {
   label: string;
@@ -206,6 +207,81 @@ function ListSectionEditor({ label, sectionKey, headerFields, itemFields, itemsK
   );
 }
 
+function LogoUploadSection({ content, onSave, isSaving }: { content: Record<string, any> | null; onSave: (key: string, content: Record<string, any>) => void; isSaving: boolean }) {
+  const [logoUrl, setLogoUrl] = useState(content?.logo_url ?? '');
+  const [uploading, setUploading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (content?.logo_url) setLogoUrl(content.logo_url);
+  }, [content]);
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    const ext = file.name.split('.').pop();
+    const path = `logo.${ext}`;
+
+    // Remove old file if exists
+    await supabase.storage.from('site-assets').remove([path]);
+
+    const { error } = await supabase.storage.from('site-assets').upload(path, file, { upsert: true });
+    if (error) {
+      setUploading(false);
+      return;
+    }
+    const { data: publicData } = supabase.storage.from('site-assets').getPublicUrl(path);
+    const url = publicData.publicUrl + '?t=' + Date.now();
+    setLogoUrl(url);
+    onSave('general', { ...content, logo_url: url });
+    setUploading(false);
+  };
+
+  const handleRemove = () => {
+    setLogoUrl('');
+    onSave('general', { ...content, logo_url: '' });
+  };
+
+  return (
+    <AccordionItem value="general" className="border-gradient rounded-lg bg-card overflow-hidden">
+      <AccordionTrigger className="px-6 py-4 hover:no-underline">
+        <span className="font-semibold text-lg">Configurações Gerais</span>
+      </AccordionTrigger>
+      <AccordionContent className="px-6 pb-6">
+        <div className="space-y-4">
+          <label className="text-sm font-medium mb-1.5 block text-muted-foreground">Logo do Site</label>
+          {logoUrl ? (
+            <div className="flex items-center gap-4">
+              <div className="h-14 bg-background rounded-lg p-2 border border-border flex items-center">
+                <img src={logoUrl} alt="Logo" className="h-full w-auto object-contain" />
+              </div>
+              <Button variant="ghost" size="sm" onClick={handleRemove} className="text-destructive">
+                <X className="h-4 w-4 mr-1" /> Remover
+              </Button>
+            </div>
+          ) : (
+            <div
+              onClick={() => fileRef.current?.click()}
+              className="border-2 border-dashed border-border rounded-lg p-8 text-center cursor-pointer hover:border-accent transition-colors"
+            >
+              {uploading ? (
+                <Loader2 className="h-6 w-6 animate-spin mx-auto text-muted-foreground" />
+              ) : (
+                <>
+                  <Upload className="h-6 w-6 mx-auto mb-2 text-muted-foreground" />
+                  <p className="text-sm text-muted-foreground">Clique para enviar a logo</p>
+                </>
+              )}
+            </div>
+          )}
+          <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleUpload} />
+        </div>
+      </AccordionContent>
+    </AccordionItem>
+  );
+}
+
 export default function Content() {
   const { sections, isLoading, getSection, updateSection } = useSiteContent();
   const [savingKey, setSavingKey] = useState<string | null>(null);
@@ -237,6 +313,13 @@ export default function Content() {
         </div>
 
         <Accordion type="multiple" className="space-y-3">
+          {/* Logo / Configurações Gerais */}
+          <LogoUploadSection
+            content={getSection('general')}
+            onSave={handleSave}
+            isSaving={savingKey === 'general'}
+          />
+
           {/* Hero */}
           <SectionEditor
             label="Hero (Banner Principal)"
