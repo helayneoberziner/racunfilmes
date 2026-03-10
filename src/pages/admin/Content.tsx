@@ -238,6 +238,13 @@ export default function Content() {
         </div>
 
         <Accordion type="multiple" className="space-y-3">
+          {/* Logo / Configurações Gerais */}
+          <LogoUploadSection
+            content={getSection('general')}
+            onSave={handleSave}
+            isSaving={savingKey === 'general'}
+          />
+
           {/* Hero */}
           <SectionEditor
             label="Hero (Banner Principal)"
