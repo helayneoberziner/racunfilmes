@@ -59,7 +59,10 @@ export default {
           soft: "hsl(var(--gold-soft))",
         },
         ink: "hsl(var(--ink))",
-        paper: "hsl(var(--paper))",
+        paper: {
+          DEFAULT: "hsl(var(--paper))",
+          warm: "hsl(var(--paper-warm))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
