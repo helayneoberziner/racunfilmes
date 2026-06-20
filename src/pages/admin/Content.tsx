@@ -1,78 +1,42 @@
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { useSiteContent } from '@/hooks/useSiteContent';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Save, Loader2, Plus, Trash2, Upload, X } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
-interface SectionEditorProps {
-  label: string;
-  sectionKey: string;
-  fields: FieldConfig[];
+interface FieldConfig { key: string; label: string; type: 'text' | 'textarea'; placeholder?: string; }
+
+function SectionEditor({ label, sectionKey, fields, content, onSave, isSaving }:{
+  label: string; sectionKey: string; fields: FieldConfig[];
   content: Record<string, any> | null;
-  onSave: (sectionKey: string, content: Record<string, any>) => void;
-  isSaving: boolean;
-}
-
-interface FieldConfig {
-  key: string;
-  label: string;
-  type: 'text' | 'textarea';
-  placeholder?: string;
-}
-
-function SectionEditor({ label, sectionKey, fields, content, onSave, isSaving }: SectionEditorProps) {
+  onSave: (k: string, v: Record<string, any>) => void; isSaving: boolean;
+}) {
   const [local, setLocal] = useState<Record<string, any>>(content ?? {});
-
-  useEffect(() => {
-    if (content) setLocal(content);
-  }, [content]);
-
-  const handleChange = (key: string, value: string) => {
-    setLocal(prev => ({ ...prev, [key]: value }));
-  };
+  useEffect(() => { if (content) setLocal(content); }, [content]);
 
   return (
-    <AccordionItem value={sectionKey} className="border-gradient rounded-lg bg-card overflow-hidden">
+    <AccordionItem value={sectionKey} className="border border-border bg-card">
       <AccordionTrigger className="px-6 py-4 hover:no-underline">
-        <span className="font-semibold text-lg">{label}</span>
+        <span className="font-display font-light text-lg text-ink">{label}</span>
       </AccordionTrigger>
       <AccordionContent className="px-6 pb-6">
         <div className="space-y-4">
-          {fields.map(field => (
-            <div key={field.key}>
-              <label className="text-sm font-medium mb-1.5 block text-muted-foreground">
-                {field.label}
-              </label>
-              {field.type === 'textarea' ? (
-                <Textarea
-                  value={local[field.key] ?? ''}
-                  onChange={e => handleChange(field.key, e.target.value)}
-                  placeholder={field.placeholder}
-                  className="bg-background border-border"
-                  rows={3}
-                />
+          {fields.map((f) => (
+            <div key={f.key}>
+              <label className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground mb-2 block">{f.label}</label>
+              {f.type === 'textarea' ? (
+                <Textarea value={local[f.key] ?? ''} onChange={(e) => setLocal((p) => ({ ...p, [f.key]: e.target.value }))} placeholder={f.placeholder} rows={3} />
               ) : (
-                <Input
-                  value={local[field.key] ?? ''}
-                  onChange={e => handleChange(field.key, e.target.value)}
-                  placeholder={field.placeholder}
-                  className="bg-background border-border"
-                />
+                <Input value={local[f.key] ?? ''} onChange={(e) => setLocal((p) => ({ ...p, [f.key]: e.target.value }))} placeholder={f.placeholder} />
               )}
             </div>
           ))}
-          <Button
-            onClick={() => onSave(sectionKey, local)}
-            disabled={isSaving}
-            className="mt-2"
-          >
-            {isSaving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Save className="h-4 w-4 mr-2" />}
-            Salvar {label}
+          <Button onClick={() => onSave(sectionKey, local)} disabled={isSaving} className="mt-2 rounded-none">
+            {isSaving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Save className="h-4 w-4 mr-2" />} Salvar
           </Button>
         </div>
       </AccordionContent>
@@ -80,112 +44,66 @@ function SectionEditor({ label, sectionKey, fields, content, onSave, isSaving }:
   );
 }
 
-interface ListEditorProps {
-  label: string;
-  sectionKey: string;
-  headerFields: FieldConfig[];
-  itemFields: FieldConfig[];
-  itemsKey: string;
+function ListSectionEditor({ label, sectionKey, headerFields, itemFields, itemsKey, content, onSave, isSaving }:{
+  label: string; sectionKey: string; headerFields: FieldConfig[]; itemFields: FieldConfig[]; itemsKey: string;
   content: Record<string, any> | null;
-  onSave: (sectionKey: string, content: Record<string, any>) => void;
-  isSaving: boolean;
-}
-
-function ListSectionEditor({ label, sectionKey, headerFields, itemFields, itemsKey, content, onSave, isSaving }: ListEditorProps) {
+  onSave: (k: string, v: Record<string, any>) => void; isSaving: boolean;
+}) {
   const [local, setLocal] = useState<Record<string, any>>(content ?? {});
-
-  useEffect(() => {
-    if (content) setLocal(content);
-  }, [content]);
-
-  const handleChange = (key: string, value: string) => {
-    setLocal(prev => ({ ...prev, [key]: value }));
-  };
-
+  useEffect(() => { if (content) setLocal(content); }, [content]);
   const items: any[] = local[itemsKey] ?? [];
 
-  const handleItemChange = (index: number, key: string, value: string) => {
-    const newItems = [...items];
-    newItems[index] = { ...newItems[index], [key]: value };
-    setLocal(prev => ({ ...prev, [itemsKey]: newItems }));
-  };
-
   const addItem = () => {
-    const emptyItem: Record<string, string> = {};
-    itemFields.forEach(f => { emptyItem[f.key] = ''; });
-    setLocal(prev => ({ ...prev, [itemsKey]: [...items, emptyItem] }));
+    const empty: Record<string, string> = {};
+    itemFields.forEach((f) => { empty[f.key] = ''; });
+    setLocal((p) => ({ ...p, [itemsKey]: [...items, empty] }));
   };
-
-  const removeItem = (index: number) => {
-    setLocal(prev => ({ ...prev, [itemsKey]: items.filter((_, i) => i !== index) }));
+  const removeItem = (i: number) => setLocal((p) => ({ ...p, [itemsKey]: items.filter((_, idx) => idx !== i) }));
+  const setItem = (i: number, k: string, v: string) => {
+    const next = [...items]; next[i] = { ...next[i], [k]: v };
+    setLocal((p) => ({ ...p, [itemsKey]: next }));
   };
 
   return (
-    <AccordionItem value={sectionKey} className="border-gradient rounded-lg bg-card overflow-hidden">
+    <AccordionItem value={sectionKey} className="border border-border bg-card">
       <AccordionTrigger className="px-6 py-4 hover:no-underline">
-        <span className="font-semibold text-lg">{label}</span>
+        <span className="font-display font-light text-lg text-ink">{label}</span>
       </AccordionTrigger>
       <AccordionContent className="px-6 pb-6">
         <div className="space-y-4">
-          {/* Header fields */}
-          {headerFields.map(field => (
-            <div key={field.key}>
-              <label className="text-sm font-medium mb-1.5 block text-muted-foreground">
-                {field.label}
-              </label>
-              {field.type === 'textarea' ? (
-                <Textarea
-                  value={local[field.key] ?? ''}
-                  onChange={e => handleChange(field.key, e.target.value)}
-                  placeholder={field.placeholder}
-                  className="bg-background border-border"
-                  rows={2}
-                />
+          {headerFields.map((f) => (
+            <div key={f.key}>
+              <label className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground mb-2 block">{f.label}</label>
+              {f.type === 'textarea' ? (
+                <Textarea value={local[f.key] ?? ''} onChange={(e) => setLocal((p) => ({ ...p, [f.key]: e.target.value }))} placeholder={f.placeholder} rows={2} />
               ) : (
-                <Input
-                  value={local[field.key] ?? ''}
-                  onChange={e => handleChange(field.key, e.target.value)}
-                  placeholder={field.placeholder}
-                  className="bg-background border-border"
-                />
+                <Input value={local[f.key] ?? ''} onChange={(e) => setLocal((p) => ({ ...p, [f.key]: e.target.value }))} placeholder={f.placeholder} />
               )}
             </div>
           ))}
 
-          {/* Items list */}
-          <div className="space-y-3 mt-4">
+          <div className="space-y-3 mt-6">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-semibold text-foreground">Itens</label>
-              <Button variant="outline" size="sm" onClick={addItem}>
-                <Plus className="h-4 w-4 mr-1" /> Adicionar
+              <label className="text-xs font-semibold uppercase tracking-[0.22em] text-ink">Itens</label>
+              <Button variant="outline" size="sm" onClick={addItem} className="rounded-none">
+                <Plus className="h-3.5 w-3.5 mr-1" /> Adicionar
               </Button>
             </div>
-            {items.map((item, index) => (
-              <div key={index} className="p-4 rounded-lg border border-border bg-background space-y-3">
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-xs font-medium text-muted-foreground">Item {index + 1}</span>
-                  <Button variant="ghost" size="sm" onClick={() => removeItem(index)} className="text-destructive h-7 px-2">
+            {items.map((item, i) => (
+              <div key={i} className="p-4 border border-border bg-paper space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">Item {i + 1}</span>
+                  <Button variant="ghost" size="sm" onClick={() => removeItem(i)} className="text-destructive h-7 px-2">
                     <Trash2 className="h-3 w-3" />
                   </Button>
                 </div>
-                {itemFields.map(field => (
-                  <div key={field.key}>
-                    <label className="text-xs text-muted-foreground mb-1 block">{field.label}</label>
-                    {field.type === 'textarea' ? (
-                      <Textarea
-                        value={item[field.key] ?? ''}
-                        onChange={e => handleItemChange(index, field.key, e.target.value)}
-                        placeholder={field.placeholder}
-                        className="bg-card border-border text-sm"
-                        rows={2}
-                      />
+                {itemFields.map((f) => (
+                  <div key={f.key}>
+                    <label className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground mb-1 block">{f.label}</label>
+                    {f.type === 'textarea' ? (
+                      <Textarea value={item[f.key] ?? ''} onChange={(e) => setItem(i, f.key, e.target.value)} placeholder={f.placeholder} rows={2} />
                     ) : (
-                      <Input
-                        value={item[field.key] ?? ''}
-                        onChange={e => handleItemChange(index, field.key, e.target.value)}
-                        placeholder={field.placeholder}
-                        className="bg-card border-border text-sm"
-                      />
+                      <Input value={item[f.key] ?? ''} onChange={(e) => setItem(i, f.key, e.target.value)} placeholder={f.placeholder} />
                     )}
                   </div>
                 ))}
@@ -193,13 +111,8 @@ function ListSectionEditor({ label, sectionKey, headerFields, itemFields, itemsK
             ))}
           </div>
 
-          <Button
-            onClick={() => onSave(sectionKey, local)}
-            disabled={isSaving}
-            className="mt-2"
-          >
-            {isSaving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Save className="h-4 w-4 mr-2" />}
-            Salvar {label}
+          <Button onClick={() => onSave(sectionKey, local)} disabled={isSaving} className="mt-3 rounded-none">
+            {isSaving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Save className="h-4 w-4 mr-2" />} Salvar
           </Button>
         </div>
       </AccordionContent>
@@ -207,53 +120,43 @@ function ListSectionEditor({ label, sectionKey, headerFields, itemFields, itemsK
   );
 }
 
-function LogoUploadSection({ content, onSave, isSaving }: { content: Record<string, any> | null; onSave: (key: string, content: Record<string, any>) => void; isSaving: boolean }) {
+function LogoUploadSection({ content, onSave, isSaving }:{
+  content: Record<string, any> | null;
+  onSave: (k: string, v: Record<string, any>) => void; isSaving: boolean;
+}) {
   const [logoUrl, setLogoUrl] = useState(content?.logo_url ?? '');
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (content?.logo_url) setLogoUrl(content.logo_url);
-  }, [content]);
+  useEffect(() => { if (content?.logo_url) setLogoUrl(content.logo_url); }, [content]);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const file = e.target.files?.[0]; if (!file) return;
     setUploading(true);
     const ext = file.name.split('.').pop();
     const path = `logo.${ext}`;
-
-    // Remove old file if exists
     await supabase.storage.from('site-assets').remove([path]);
-
     const { error } = await supabase.storage.from('site-assets').upload(path, file, { upsert: true });
-    if (error) {
-      setUploading(false);
-      return;
-    }
-    const { data: publicData } = supabase.storage.from('site-assets').getPublicUrl(path);
-    const url = publicData.publicUrl + '?t=' + Date.now();
+    if (error) { setUploading(false); return; }
+    const { data: pub } = supabase.storage.from('site-assets').getPublicUrl(path);
+    const url = pub.publicUrl + '?t=' + Date.now();
     setLogoUrl(url);
     onSave('general', { ...content, logo_url: url });
     setUploading(false);
   };
 
-  const handleRemove = () => {
-    setLogoUrl('');
-    onSave('general', { ...content, logo_url: '' });
-  };
+  const handleRemove = () => { setLogoUrl(''); onSave('general', { ...content, logo_url: '' }); };
 
   return (
-    <AccordionItem value="general" className="border-gradient rounded-lg bg-card overflow-hidden">
+    <AccordionItem value="general" className="border border-border bg-card">
       <AccordionTrigger className="px-6 py-4 hover:no-underline">
-        <span className="font-semibold text-lg">Configurações Gerais</span>
+        <span className="font-display font-light text-lg text-ink">Logotipo & Identidade</span>
       </AccordionTrigger>
       <AccordionContent className="px-6 pb-6">
-        <div className="space-y-4">
-          <label className="text-sm font-medium mb-1.5 block text-muted-foreground">Logo do Site</label>
+        <div className="space-y-3">
+          <label className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">Logotipo do site</label>
           {logoUrl ? (
             <div className="flex items-center gap-4">
-              <div className="h-14 bg-background rounded-lg p-2 border border-border flex items-center">
+              <div className="h-16 bg-paper p-2 border border-border flex items-center">
                 <img src={logoUrl} alt="Logo" className="h-full w-auto object-contain" />
               </div>
               <Button variant="ghost" size="sm" onClick={handleRemove} className="text-destructive">
@@ -261,16 +164,12 @@ function LogoUploadSection({ content, onSave, isSaving }: { content: Record<stri
               </Button>
             </div>
           ) : (
-            <div
-              onClick={() => fileRef.current?.click()}
-              className="border-2 border-dashed border-border rounded-lg p-8 text-center cursor-pointer hover:border-accent transition-colors"
-            >
-              {uploading ? (
-                <Loader2 className="h-6 w-6 animate-spin mx-auto text-muted-foreground" />
-              ) : (
+            <div onClick={() => fileRef.current?.click()}
+              className="border-2 border-dashed border-border p-8 text-center cursor-pointer hover:border-accent transition-colors">
+              {uploading ? <Loader2 className="h-6 w-6 animate-spin mx-auto text-muted-foreground" /> : (
                 <>
                   <Upload className="h-6 w-6 mx-auto mb-2 text-muted-foreground" />
-                  <p className="text-sm text-muted-foreground">Clique para enviar a logo</p>
+                  <p className="text-sm text-muted-foreground font-light">Clique para enviar o logotipo</p>
                 </>
               )}
             </div>
@@ -283,252 +182,198 @@ function LogoUploadSection({ content, onSave, isSaving }: { content: Record<stri
 }
 
 export default function Content() {
-  const { sections, isLoading, getSection, updateSection } = useSiteContent();
+  const { isLoading, getSection, updateSection } = useSiteContent();
   const [savingKey, setSavingKey] = useState<string | null>(null);
 
-  const handleSave = async (sectionKey: string, content: Record<string, any>) => {
-    setSavingKey(sectionKey);
-    await updateSection.mutateAsync({ sectionKey, content });
+  const handleSave = async (key: string, content: Record<string, any>) => {
+    setSavingKey(key);
+    await updateSection.mutateAsync({ sectionKey: key, content });
     setSavingKey(null);
   };
 
   if (isLoading) {
-    return (
-      <AdminLayout>
-        <div className="flex items-center justify-center py-20">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        </div>
-      </AdminLayout>
-    );
+    return <AdminLayout><div className="flex items-center justify-center py-20"><Loader2 className="h-8 w-8 animate-spin text-accent" /></div></AdminLayout>;
   }
 
   return (
     <AdminLayout>
       <div className="space-y-8">
         <div>
-          <h1 className="text-3xl font-bold mb-2">Conteúdo do Site</h1>
-          <p className="text-muted-foreground">
-            Edite os textos exibidos em cada seção do site
-          </p>
+          <div className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground mb-3">Conteúdo</div>
+          <h1 className="display text-4xl md:text-5xl font-light text-ink">Editor do site</h1>
+          <p className="text-muted-foreground mt-3 font-light">Edite cada seção exibida na home pública.</p>
         </div>
 
         <Accordion type="multiple" className="space-y-3">
-          {/* Logo / Configurações Gerais */}
-          <LogoUploadSection
-            content={getSection('general')}
-            onSave={handleSave}
-            isSaving={savingKey === 'general'}
-          />
+          <LogoUploadSection content={getSection('general')} onSave={handleSave} isSaving={savingKey === 'general'} />
 
-          {/* Hero */}
           <SectionEditor
-            label="Hero (Banner Principal)"
-            sectionKey="hero"
-            content={getSection('hero')}
-            onSave={handleSave}
-            isSaving={savingKey === 'hero'}
+            label="Hero — banner principal" sectionKey="hero"
+            content={getSection('hero')} onSave={handleSave} isSaving={savingKey === 'hero'}
             fields={[
-              { key: 'badge', label: 'Badge (etiqueta)', type: 'text', placeholder: 'Produtora Audiovisual' },
-              { key: 'title_prefix', label: 'Título (prefixo)', type: 'text', placeholder: 'Vídeos que' },
-              { key: 'title_highlight1', label: 'Título (destaque 1)', type: 'text', placeholder: 'vendem' },
-              { key: 'title_connector', label: 'Título (conector)', type: 'text', placeholder: 'e' },
-              { key: 'title_highlight2', label: 'Título (destaque 2)', type: 'text', placeholder: 'posicionam' },
-              { key: 'subtitle', label: 'Subtítulo', type: 'textarea', placeholder: 'Descrição do banner' },
-              { key: 'whatsapp_number', label: 'WhatsApp (número)', type: 'text', placeholder: '5547999999999' },
-              { key: 'whatsapp_message', label: 'Mensagem WhatsApp', type: 'text', placeholder: 'Olá! Gostaria de...' },
-            ]}
-          />
-
-          {/* Strategy */}
-          <SectionEditor
-            label="Declaração Estratégica"
-            sectionKey="strategy"
-            content={getSection('strategy')}
-            onSave={handleSave}
-            isSaving={savingKey === 'strategy'}
-            fields={[
-              { key: 'title_prefix', label: 'Título (prefixo)', type: 'text', placeholder: 'Vídeos com' },
-              { key: 'title_highlight', label: 'Título (destaque)', type: 'text', placeholder: 'estratégia' },
-              { key: 'title_suffix', label: 'Título (sufixo)', type: 'text', placeholder: ', não apenas estética' },
+              { key: 'eyebrow', label: 'Etiqueta (acima do título)', type: 'text' },
+              { key: 'title_a', label: 'Título — linha 1', type: 'text' },
+              { key: 'title_b', label: 'Título — linha 2 (prefixo)', type: 'text' },
+              { key: 'title_highlight', label: 'Título — palavra em destaque', type: 'text' },
               { key: 'subtitle', label: 'Subtítulo', type: 'textarea' },
+              { key: 'cta_primary', label: 'Botão primário', type: 'text' },
+              { key: 'cta_secondary', label: 'Botão secundário', type: 'text' },
             ]}
           />
 
-          {/* About */}
           <SectionEditor
-            label="Quem Somos"
-            sectionKey="about"
-            content={getSection('about')}
-            onSave={handleSave}
-            isSaving={savingKey === 'about'}
+            label="Experiência de vida" sectionKey="lifestyle"
+            content={getSection('lifestyle')} onSave={handleSave} isSaving={savingKey === 'lifestyle'}
             fields={[
-              { key: 'tag', label: 'Tag', type: 'text', placeholder: 'Quem Somos' },
-              { key: 'title_prefix', label: 'Título (prefixo)', type: 'text', placeholder: 'Muito mais que' },
-              { key: 'title_highlight', label: 'Título (destaque)', type: 'text', placeholder: 'vídeo bonito' },
-              { key: 'description1', label: 'Descrição (parágrafo 1)', type: 'textarea' },
-              { key: 'description2', label: 'Descrição (parágrafo 2)', type: 'textarea' },
-              { key: 'card_subtitle', label: 'Subtítulo do card', type: 'text', placeholder: 'Transformando marcas...' },
-              { key: 'stat1_value', label: 'Estatística 1 - Valor', type: 'text', placeholder: '50+' },
-              { key: 'stat1_label', label: 'Estatística 1 - Label', type: 'text', placeholder: 'Projetos' },
-              { key: 'stat2_value', label: 'Estatística 2 - Valor', type: 'text', placeholder: '30+' },
-              { key: 'stat2_label', label: 'Estatística 2 - Label', type: 'text', placeholder: 'Clientes' },
-              { key: 'stat3_value', label: 'Estatística 3 - Valor', type: 'text', placeholder: '5+' },
-              { key: 'stat3_label', label: 'Estatística 3 - Label', type: 'text', placeholder: 'Anos' },
+              { key: 'eyebrow', label: 'Etiqueta', type: 'text' },
+              { key: 'title_a', label: 'Título — linha 1', type: 'text' },
+              { key: 'title_b', label: 'Título — linha 2 (prefixo)', type: 'text' },
+              { key: 'highlight', label: 'Palavra em destaque', type: 'text' },
+              { key: 'title_c', label: 'Título — linha 3', type: 'text' },
+              { key: 'paragraph', label: 'Parágrafo', type: 'textarea' },
+              { key: 'stat1_value', label: 'Estatística 1 — valor', type: 'text' },
+              { key: 'stat1_label', label: 'Estatística 1 — rótulo', type: 'text' },
+              { key: 'stat2_value', label: 'Estatística 2 — valor', type: 'text' },
+              { key: 'stat2_label', label: 'Estatística 2 — rótulo', type: 'text' },
+              { key: 'stat3_value', label: 'Estatística 3 — valor', type: 'text' },
+              { key: 'stat3_label', label: 'Estatística 3 — rótulo', type: 'text' },
             ]}
           />
 
-          {/* Segments */}
           <ListSectionEditor
-            label="Segmentos"
-            sectionKey="segments"
-            content={getSection('segments')}
-            onSave={handleSave}
-            isSaving={savingKey === 'segments'}
-            itemsKey="items"
+            label="Um dia no Lago di Garda" sectionKey="um_dia" itemsKey="items"
+            content={getSection('um_dia')} onSave={handleSave} isSaving={savingKey === 'um_dia'}
+            headerFields={[]}
+            itemFields={[
+              { key: 'time',  label: 'Horário', type: 'text', placeholder: '06h30' },
+              { key: 'title', label: 'Título', type: 'text' },
+              { key: 'text',  label: 'Texto', type: 'textarea' },
+              { key: 'align', label: 'Alinhamento (left ou right)', type: 'text' },
+            ]}
+          />
+
+          <ListSectionEditor
+            label="Infraestrutura" sectionKey="infrastructure" itemsKey="items"
+            content={getSection('infrastructure')} onSave={handleSave} isSaving={savingKey === 'infrastructure'}
             headerFields={[
-              { key: 'tag', label: 'Tag', type: 'text', placeholder: 'Segmentos' },
-              { key: 'title_prefix', label: 'Título (prefixo)', type: 'text', placeholder: 'Mercados que' },
-              { key: 'title_highlight', label: 'Título (destaque)', type: 'text', placeholder: 'atendemos' },
-              { key: 'subtitle', label: 'Subtítulo', type: 'textarea', placeholder: 'Experiência em diferentes segmentos...' },
+              { key: 'eyebrow', label: 'Etiqueta', type: 'text' },
+              { key: 'title', label: 'Título — linha 1', type: 'text' },
+              { key: 'title2', label: 'Título — linha 2 em destaque', type: 'text' },
             ]}
             itemFields={[
-              { key: 'title', label: 'Título', type: 'text', placeholder: 'Nome do segmento' },
-              { key: 'description', label: 'Descrição', type: 'text', placeholder: 'Descrição curta' },
+              { key: 'icon', label: 'Ícone (Shield, ScanFace, Trophy, Volleyball, Wine, Flame, Briefcase, Baby, ToyBrick, Dog, Sprout, Trees, PartyPopper, UtensilsCrossed)', type: 'text' },
+              { key: 'title', label: 'Nome do ambiente', type: 'text' },
             ]}
           />
 
-          {/* Objectives */}
           <ListSectionEditor
-            label="Objetivos"
-            sectionKey="objectives"
-            content={getSection('objectives')}
-            onSave={handleSave}
-            isSaving={savingKey === 'objectives'}
-            itemsKey="items"
+            label="Localização" sectionKey="location" itemsKey="points"
+            content={getSection('location')} onSave={handleSave} isSaving={savingKey === 'location'}
             headerFields={[
-              { key: 'tag', label: 'Tag', type: 'text', placeholder: 'Propósito' },
-              { key: 'title_prefix', label: 'Título (prefixo)', type: 'text', placeholder: 'O vídeo certo para o' },
-              { key: 'title_highlight', label: 'Título (destaque)', type: 'text', placeholder: 'objetivo certo' },
-              { key: 'subtitle', label: 'Subtítulo', type: 'textarea', placeholder: 'Trabalhamos com estratégia...' },
+              { key: 'eyebrow', label: 'Etiqueta', type: 'text' },
+              { key: 'title', label: 'Título — linha 1', type: 'text' },
+              { key: 'title2', label: 'Título — linha 2 em destaque', type: 'text' },
+              { key: 'text', label: 'Texto', type: 'textarea' },
             ]}
             itemFields={[
-              { key: 'label', label: 'Texto', type: 'text', placeholder: 'Ex: Vender mais' },
+              { key: 'name', label: 'Ponto de referência', type: 'text' },
+              { key: 'time', label: 'Tempo', type: 'text' },
             ]}
           />
 
-          {/* Process */}
           <ListSectionEditor
-            label="Processo"
-            sectionKey="process"
-            content={getSection('process')}
-            onSave={handleSave}
-            isSaving={savingKey === 'process'}
-            itemsKey="items"
+            label="Masterplan" sectionKey="masterplan" itemsKey="pins"
+            content={getSection('masterplan')} onSave={handleSave} isSaving={savingKey === 'masterplan'}
             headerFields={[
-              { key: 'tag', label: 'Tag', type: 'text', placeholder: 'Processo' },
-              { key: 'title_prefix', label: 'Título (prefixo)', type: 'text', placeholder: 'Como' },
-              { key: 'title_highlight', label: 'Título (destaque)', type: 'text', placeholder: 'trabalhamos' },
-              { key: 'subtitle', label: 'Subtítulo', type: 'textarea', placeholder: 'Um processo estruturado...' },
+              { key: 'eyebrow', label: 'Etiqueta', type: 'text' },
+              { key: 'title', label: 'Título — linha 1', type: 'text' },
+              { key: 'title2', label: 'Título — linha 2 em destaque', type: 'text' },
+              { key: 'text', label: 'Texto', type: 'textarea' },
             ]}
             itemFields={[
-              { key: 'title', label: 'Título', type: 'text', placeholder: 'Ex: Briefing' },
+              { key: 'label', label: 'Nome do ponto', type: 'text' },
+              { key: 'x', label: 'Posição X (0-100)', type: 'text' },
+              { key: 'y', label: 'Posição Y (0-100)', type: 'text' },
             ]}
           />
 
-          {/* Services */}
-          <ListSectionEditor
-            label="Serviços"
-            sectionKey="services"
-            content={getSection('services')}
-            onSave={handleSave}
-            isSaving={savingKey === 'services'}
-            itemsKey="items"
-            headerFields={[
-              { key: 'tag', label: 'Tag', type: 'text', placeholder: 'Serviços' },
-              { key: 'title_prefix', label: 'Título (prefixo)', type: 'text', placeholder: 'O que' },
-              { key: 'title_highlight', label: 'Título (destaque)', type: 'text', placeholder: 'fazemos' },
-              { key: 'subtitle', label: 'Subtítulo', type: 'textarea' },
-            ]}
-            itemFields={[
-              { key: 'title', label: 'Título', type: 'text', placeholder: 'Nome do serviço' },
-              { key: 'description', label: 'Descrição', type: 'textarea', placeholder: 'Descrição do serviço' },
-            ]}
-          />
-
-          {/* FAQ */}
-          <ListSectionEditor
-            label="Perguntas Frequentes (FAQ)"
-            sectionKey="faq"
-            content={getSection('faq')}
-            onSave={handleSave}
-            isSaving={savingKey === 'faq'}
-            itemsKey="items"
-            headerFields={[
-              { key: 'tag', label: 'Tag', type: 'text', placeholder: 'FAQ' },
-              { key: 'title_prefix', label: 'Título (prefixo)', type: 'text', placeholder: 'Perguntas' },
-              { key: 'title_highlight', label: 'Título (destaque)', type: 'text', placeholder: 'frequentes' },
-            ]}
-            itemFields={[
-              { key: 'question', label: 'Pergunta', type: 'text', placeholder: 'Pergunta frequente' },
-              { key: 'answer', label: 'Resposta', type: 'textarea', placeholder: 'Resposta...' },
-            ]}
-          />
-
-          {/* Contact */}
           <SectionEditor
-            label="Contato"
-            sectionKey="contact"
-            content={getSection('contact')}
-            onSave={handleSave}
-            isSaving={savingKey === 'contact'}
+            label="Lotes — destaque" sectionKey="lotes"
+            content={getSection('lotes')} onSave={handleSave} isSaving={savingKey === 'lotes'}
             fields={[
-              { key: 'tag', label: 'Tag', type: 'text', placeholder: 'Orçamento' },
-              { key: 'title_prefix', label: 'Título (prefixo)', type: 'text', placeholder: 'Vamos' },
-              { key: 'title_highlight', label: 'Título (destaque)', type: 'text', placeholder: 'conversar' },
-              { key: 'title_suffix', label: 'Título (sufixo)', type: 'text', placeholder: '?' },
-              { key: 'subtitle', label: 'Subtítulo', type: 'textarea' },
-              { key: 'whatsapp_number', label: 'WhatsApp (número)', type: 'text', placeholder: '5547999999999' },
-              { key: 'area_title', label: 'Título área de atuação', type: 'text', placeholder: 'Área de Atuação' },
-              { key: 'area_description', label: 'Descrição área de atuação', type: 'textarea', placeholder: 'Blumenau, Vale do Itajaí...' },
+              { key: 'eyebrow', label: 'Etiqueta', type: 'text' },
+              { key: 'suffix', label: 'Texto pequeno acima', type: 'text' },
+              { key: 'big', label: 'Número grande', type: 'text' },
+              { key: 'title', label: 'Título', type: 'text' },
+              { key: 'text', label: 'Texto', type: 'textarea' },
             ]}
           />
 
-          {/* Testimonials */}
           <ListSectionEditor
-            label="Depoimentos"
-            sectionKey="testimonials"
-            content={getSection('testimonials')}
-            onSave={handleSave}
-            isSaving={savingKey === 'testimonials'}
-            itemsKey="items"
+            label="Diferenciais" sectionKey="differentials" itemsKey="items"
+            content={getSection('differentials')} onSave={handleSave} isSaving={savingKey === 'differentials'}
             headerFields={[
-              { key: 'tag', label: 'Tag', type: 'text', placeholder: 'Depoimentos' },
-              { key: 'title_prefix', label: 'Título (prefixo)', type: 'text', placeholder: 'O que' },
-              { key: 'title_highlight', label: 'Título (destaque)', type: 'text', placeholder: 'clientes dizem' },
-              { key: 'logos_label', label: 'Texto acima dos logos', type: 'text', placeholder: 'Empresas que confiam em nós' },
+              { key: 'eyebrow', label: 'Etiqueta', type: 'text' },
+              { key: 'title', label: 'Título — linha 1', type: 'text' },
+              { key: 'title2', label: 'Título — linha 2 em destaque', type: 'text' },
             ]}
             itemFields={[
-              { key: 'name', label: 'Nome', type: 'text', placeholder: 'Nome do cliente' },
-              { key: 'company', label: 'Empresa', type: 'text', placeholder: 'Nome da empresa' },
-              { key: 'content', label: 'Depoimento', type: 'textarea', placeholder: 'Texto do depoimento...' },
-              { key: 'rating', label: 'Nota (1-5)', type: 'text', placeholder: '5' },
+              { key: 'title', label: 'Título', type: 'text' },
+              { key: 'text', label: 'Texto', type: 'textarea' },
             ]}
           />
 
-          {/* CTA */}
+          <ListSectionEditor
+            label="Depoimentos" sectionKey="testimonials" itemsKey="items"
+            content={getSection('testimonials')} onSave={handleSave} isSaving={savingKey === 'testimonials'}
+            headerFields={[]}
+            itemFields={[
+              { key: 'quote', label: 'Depoimento', type: 'textarea' },
+              { key: 'author', label: 'Autor', type: 'text' },
+              { key: 'role', label: 'Cargo / contexto', type: 'text' },
+            ]}
+          />
+
+          <ListSectionEditor
+            label="Perguntas frequentes" sectionKey="faq" itemsKey="items"
+            content={getSection('faq')} onSave={handleSave} isSaving={savingKey === 'faq'}
+            headerFields={[]}
+            itemFields={[
+              { key: 'q', label: 'Pergunta', type: 'text' },
+              { key: 'a', label: 'Resposta', type: 'textarea' },
+            ]}
+          />
+
           <SectionEditor
-            label="CTA (Chamada Final)"
-            sectionKey="cta"
-            content={getSection('cta')}
-            onSave={handleSave}
-            isSaving={savingKey === 'cta'}
+            label="Formulário de contato" sectionKey="contact_form"
+            content={getSection('contact_form')} onSave={handleSave} isSaving={savingKey === 'contact_form'}
             fields={[
-              { key: 'title_prefix', label: 'Título (prefixo)', type: 'text', placeholder: 'Pronto para' },
-              { key: 'title_highlight', label: 'Título (destaque)', type: 'text', placeholder: 'transformar sua marca' },
-              { key: 'title_suffix', label: 'Título (sufixo)', type: 'text', placeholder: '?' },
-              { key: 'subtitle', label: 'Subtítulo', type: 'textarea' },
-              { key: 'whatsapp_number', label: 'WhatsApp (número)', type: 'text', placeholder: '5547999999999' },
-              { key: 'whatsapp_message', label: 'Mensagem WhatsApp', type: 'text', placeholder: 'Olá! Quero...' },
+              { key: 'eyebrow', label: 'Etiqueta', type: 'text' },
+              { key: 'title', label: 'Título — linha 1', type: 'text' },
+              { key: 'title2', label: 'Título — linha 2 em destaque', type: 'text' },
+              { key: 'text', label: 'Texto', type: 'textarea' },
+              { key: 'whatsapp_number', label: 'WhatsApp (número internacional)', type: 'text', placeholder: '5547999999999' },
+            ]}
+          />
+
+          <SectionEditor
+            label="CTA final" sectionKey="final_cta"
+            content={getSection('final_cta')} onSave={handleSave} isSaving={savingKey === 'final_cta'}
+            fields={[
+              { key: 'title', label: 'Título — linha 1', type: 'text' },
+              { key: 'title2', label: 'Título — linha 2 em destaque', type: 'text' },
+              { key: 'cta', label: 'Texto do botão', type: 'text' },
+            ]}
+          />
+
+          <SectionEditor
+            label="Rodapé" sectionKey="footer"
+            content={getSection('footer')} onSave={handleSave} isSaving={savingKey === 'footer'}
+            fields={[
+              { key: 'address', label: 'Endereço', type: 'text' },
+              { key: 'phone', label: 'Telefone', type: 'text' },
+              { key: 'email', label: 'E-mail', type: 'text' },
+              { key: 'instagram', label: 'Instagram (URL)', type: 'text' },
             ]}
           />
         </Accordion>

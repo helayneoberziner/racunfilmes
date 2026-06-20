@@ -1,131 +1,129 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useSectionContent } from "@/hooks/useSiteContent";
 
-const navLinks = [
-  { name: "Início", href: "#home" },
-  { name: "Quem Somos", href: "#about" },
-  { name: "Serviços", href: "#services" },
-  { name: "Portfólio", href: "#portfolio" },
-  { name: "Marketing", href: "https://agenciaracun.com", external: true },
-  { name: "Contato", href: "#contact" },
+const links = [
+  { name: "O Condomínio", href: "#lifestyle" },
+  { name: "Um Dia",       href: "#um-dia" },
+  { name: "Infraestrutura", href: "#infra" },
+  { name: "Localização",  href: "#location" },
+  { name: "Masterplan",   href: "#masterplan" },
+  { name: "Galeria",      href: "#gallery" },
+  { name: "Contato",      href: "#contact" },
 ];
 
-const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-  if (href.startsWith("#")) {
-    e.preventDefault();
-    const target = document.querySelector(href);
-    if (target) {
-      const offset = 80;
-      const top = target.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top, behavior: "smooth" });
-    }
-  }
+const scroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  if (!href.startsWith("#")) return;
+  e.preventDefault();
+  const el = document.querySelector(href);
+  if (!el) return;
+  const top = (el as HTMLElement).getBoundingClientRect().top + window.scrollY - 70;
+  window.scrollTo({ top, behavior: "smooth" });
 };
 
-const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { content } = useSectionContent('general');
-  const logoUrl = content?.logo_url || '';
+export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+  const { content } = useSectionContent("general");
+  const logoUrl = content?.logo_url || "";
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const on = () => setScrolled(window.scrollY > 40);
+    on();
+    window.addEventListener("scroll", on, { passive: true });
+    return () => window.removeEventListener("scroll", on);
   }, []);
 
   return (
     <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6 }}
-      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-500 ${
-        isScrolled
-          ? "bg-background/90 backdrop-blur-xl border-b border-border"
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.9, ease: [0.2, 0.7, 0.2, 1] }}
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+        scrolled
+          ? "bg-paper/85 backdrop-blur-xl border-b border-border/70"
           : "bg-transparent"
       }`}
     >
-      <nav className="container-custom flex h-16 sm:h-20 items-center justify-between">
-        {/* Logo */}
-        <a href="#home" onClick={(e) => handleSmoothScroll(e, "#home")} className="flex items-center gap-2">
+      <nav className="container-custom flex h-16 md:h-20 items-center justify-between">
+        <a href="#home" onClick={(e) => scroll(e, "#home")} className="flex items-center gap-3 group">
           {logoUrl ? (
-            <img src={logoUrl} alt="Racun Filmes" className="h-8 sm:h-10 w-auto object-contain" />
+            <img src={logoUrl} alt="Lago di Garda" className="h-8 md:h-9 w-auto" />
           ) : (
-            <span className="text-2xl font-bold tracking-tight">
-              <span className="text-gradient">RACUN</span>
-              <span className="text-foreground"> FILMES</span>
-            </span>
+            <div className={`flex items-baseline gap-2 transition-colors ${scrolled ? "text-ink" : "text-paper"}`}>
+              <span className="font-display text-[22px] md:text-[26px] font-light tracking-tight">Lago</span>
+              <span className="gold-rule w-6 md:w-8" />
+              <span className="font-display text-[22px] md:text-[26px] font-light tracking-tight">di Garda</span>
+            </div>
           )}
         </a>
 
-        {/* Desktop Navigation */}
-        <div className="hidden items-center gap-8 lg:flex">
-          {navLinks.map((link) => (
+        <div className="hidden lg:flex items-center gap-9">
+          {links.map((l) => (
             <a
-              key={link.name}
-              href={link.href}
-              {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : { onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleSmoothScroll(e, link.href) })}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              key={l.href}
+              href={l.href}
+              onClick={(e) => scroll(e, l.href)}
+              className={`text-[12px] uppercase tracking-[0.22em] font-medium transition-colors ${
+                scrolled ? "text-ink/70 hover:text-ink" : "text-paper/80 hover:text-paper"
+              }`}
             >
-              {link.name}
+              {l.name}
             </a>
           ))}
-          <Button variant="hero" size="default" asChild>
-            <a href="#contact" onClick={(e) => handleSmoothScroll(e, "#contact")}>Solicitar Orçamento</a>
-          </Button>
+          <a
+            href="#contact"
+            onClick={(e) => scroll(e, "#contact")}
+            className={`text-[12px] uppercase tracking-[0.22em] font-medium px-5 py-3 border transition-all ${
+              scrolled
+                ? "border-ink text-ink hover:bg-ink hover:text-paper"
+                : "border-paper text-paper hover:bg-paper hover:text-ink"
+            }`}
+          >
+            Agendar Visita
+          </a>
         </div>
 
-        {/* Mobile Menu Button */}
         <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="lg:hidden"
-          aria-label="Toggle menu"
+          aria-label="Menu"
+          onClick={() => setOpen((v) => !v)}
+          className={`lg:hidden ${scrolled ? "text-ink" : "text-paper"}`}
         >
-          {isMobileMenuOpen ? (
-            <X className="h-6 w-6" />
-          ) : (
-            <Menu className="h-6 w-6" />
-          )}
+          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </nav>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
-        {isMobileMenuOpen && (
+        {open && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden border-b border-border bg-background/95 backdrop-blur-xl"
+            className="lg:hidden border-t border-border bg-paper"
           >
-            <div className="container-custom flex flex-col gap-4 py-6">
-              {navLinks.map((link) => (
+            <div className="container-custom py-8 flex flex-col gap-5">
+              {links.map((l) => (
                 <a
-                  key={link.name}
-                  href={link.href}
-                  {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  onClick={(e) => { if (!link.external) handleSmoothScroll(e, link.href); setIsMobileMenuOpen(false); }}
-                  className="text-lg font-medium text-muted-foreground transition-colors hover:text-foreground"
+                  key={l.href}
+                  href={l.href}
+                  onClick={(e) => { scroll(e, l.href); setOpen(false); }}
+                  className="text-base font-light tracking-tight text-ink/80 hover:text-ink"
                 >
-                  {link.name}
+                  {l.name}
                 </a>
               ))}
-              <Button variant="hero" size="lg" asChild className="mt-4">
-                <a href="#contact" onClick={(e) => { handleSmoothScroll(e, "#contact"); setIsMobileMenuOpen(false); }}>
-                  Solicitar Orçamento
-                </a>
-              </Button>
+              <a
+                href="#contact"
+                onClick={(e) => { scroll(e, "#contact"); setOpen(false); }}
+                className="mt-4 text-center text-[12px] uppercase tracking-[0.22em] font-medium px-5 py-4 border border-ink text-ink"
+              >
+                Agendar Visita
+              </a>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
     </motion.header>
   );
-};
-
-export default Navbar;
+}
