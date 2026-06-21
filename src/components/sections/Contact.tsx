@@ -4,6 +4,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useSectionContent } from "@/hooks/useSiteContent";
+import { EditableText } from "@/components/EditableText";
 import { ArrowRight, ArrowLeft, Check, Loader2 } from "lucide-react";
 
 const schema = z.object({
@@ -81,13 +82,17 @@ export default function Contact() {
       <div className="container-custom section-padding">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-20">
           <div className="lg:col-span-5">
-            <motion.div initial={{opacity:0,y:20}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:1}}
-              className="eyebrow mb-8">{c.eyebrow}</motion.div>
+            <motion.div initial={{opacity:0,y:20}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:1}} className="mb-8">
+              <EditableText sectionKey="contact_form" fieldKey="eyebrow" value={c.eyebrow} as="span" className="eyebrow" />
+            </motion.div>
             <motion.h2 initial={{opacity:0,y:30}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:1.1,delay:0.1}}
               className="display text-ink text-[36px] md:text-[52px] lg:text-[60px] text-balance leading-[0.98]">
-              {c.title}<br /><span className="italic gold-text">{c.title2}</span>
+              <EditableText sectionKey="contact_form" fieldKey="title" value={c.title} as="span" /><br />
+              <EditableText sectionKey="contact_form" fieldKey="title2" value={c.title2} as="span" className="italic gold-text" />
             </motion.h2>
-            <p className="mt-8 text-foreground/70 font-light leading-relaxed max-w-md text-pretty">{c.text}</p>
+            <p className="mt-8 text-foreground/70 font-light leading-relaxed max-w-md text-pretty">
+              <EditableText sectionKey="contact_form" fieldKey="text" value={c.text} as="span" multiline />
+            </p>
 
             <div className="mt-12 space-y-5 text-sm text-foreground/70 font-light">
               <div className="flex items-start gap-4"><span className="num-marker text-accent text-xs mt-1">01</span><span>Conversa inicial sem compromisso para entender seu momento.</span></div>

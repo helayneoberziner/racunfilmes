@@ -1,6 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { useSectionContent } from "@/hooks/useSiteContent";
+import { EditableText } from "@/components/EditableText";
 
 const DEFAULT_POINTS = [
   { name: "Cooper Blumenau",    time: "4 min" },
@@ -30,14 +31,18 @@ export default function Location() {
       <div className="container-custom section-padding">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
           <div className="lg:col-span-5">
-            <motion.div initial={{opacity:0,y:20}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:1}}
-              className="eyebrow mb-8">{c.eyebrow}</motion.div>
+            <motion.div initial={{opacity:0,y:20}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:1}} className="mb-8">
+              <EditableText sectionKey="location" fieldKey="eyebrow" value={c.eyebrow} as="span" className="eyebrow" />
+            </motion.div>
             <motion.h2 initial={{opacity:0,y:30}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:1.1,delay:0.1}}
               className="display text-ink text-[36px] md:text-[52px] lg:text-[60px] text-balance">
-              {c.title}<br /><span className="italic gold-text">{c.title2}</span>
+              <EditableText sectionKey="location" fieldKey="title" value={c.title} as="span" /><br />
+              <EditableText sectionKey="location" fieldKey="title2" value={c.title2} as="span" className="italic gold-text" />
             </motion.h2>
             <motion.p initial={{opacity:0,y:20}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:1,delay:0.2}}
-              className="mt-8 text-foreground/70 font-light leading-relaxed text-pretty max-w-md">{c.text}</motion.p>
+              className="mt-8 text-foreground/70 font-light leading-relaxed text-pretty max-w-md">
+              <EditableText sectionKey="location" fieldKey="text" value={c.text} as="span" multiline />
+            </motion.p>
 
             <div className="mt-12">
               <div className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground mb-5">Distâncias estimadas</div>
