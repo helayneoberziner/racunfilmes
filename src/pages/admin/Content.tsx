@@ -198,6 +198,77 @@ function LogoUploadSection({ content, onSave, isSaving }:{
   );
 }
 
+function HeroMediaEditor({ content, onSave, isSaving }:{
+  content: Record<string, any> | null;
+  onSave: (k: string, v: Record<string, any>) => void; isSaving: boolean;
+}) {
+  const [local, setLocal] = useState<Record<string, any>>(() => ({ media_url: '', media_type: 'image', ...(content ?? {}) }));
+  useEffect(() => { if (content) setLocal((p) => ({ ...p, ...content })); }, [content]);
+
+  return (
+    <AccordionItem value="hero_media" className="border border-border bg-card">
+      <AccordionTrigger className="px-5 py-3 hover:no-underline">
+        <span className="font-display font-light text-base text-ink">Hero — mídia de fundo</span>
+      </AccordionTrigger>
+      <AccordionContent className="px-5 pb-5">
+        <div className="space-y-3">
+          <MediaField
+            label="Imagem ou vídeo do banner principal"
+            value={local.media_url}
+            type={local.media_type as 'image' | 'video'}
+            folder="hero"
+            onChange={(url, type) => setLocal((p) => ({ ...p, media_url: url, media_type: type }))}
+            onClear={() => setLocal((p) => ({ ...p, media_url: '', media_type: 'image' }))}
+          />
+          <p className="text-[10px] text-muted-foreground font-light">
+            Vídeos rodam automaticamente, em loop e sem áudio. Recomendado: 1920×1080, &lt; 15 MB.
+          </p>
+          <Button onClick={() => onSave('hero', { ...content, ...local })} disabled={isSaving} className="rounded-none" size="sm">
+            {isSaving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Save className="h-4 w-4 mr-2" />} Salvar mídia
+          </Button>
+        </div>
+      </AccordionContent>
+    </AccordionItem>
+  );
+}
+
+function GallerySectionEditor({ content, onSave, isSaving }:{
+  content: Record<string, any> | null;
+  onSave: (k: string, v: Record<string, any>) => void; isSaving: boolean;
+}) {
+  const [local, setLocal] = useState<Record<string, any>>(() => mergeWithDefaults('gallery', content));
+  useEffect(() => { setLocal(mergeWithDefaults('gallery', content)); }, [content]);
+  const items: GalleryItem[] = local.items ?? [];
+
+  return (
+    <AccordionItem value="gallery" className="border border-border bg-card">
+      <AccordionTrigger className="px-5 py-3 hover:no-underline">
+        <span className="font-display font-light text-base text-ink">Galeria — imagens</span>
+      </AccordionTrigger>
+      <AccordionContent className="px-5 pb-5">
+        <div className="space-y-3">
+          {[
+            { key: 'eyebrow', label: 'Etiqueta' },
+            { key: 'title',   label: 'Título — linha 1' },
+            { key: 'title2',  label: 'Título — linha 2 em destaque' },
+          ].map((f) => (
+            <div key={f.key}>
+              <label className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground mb-1.5 block">{f.label}</label>
+              <Input value={local[f.key] ?? ''} onChange={(e) => setLocal((p) => ({ ...p, [f.key]: e.target.value }))} />
+            </div>
+          ))}
+
+          <MediaListField items={items} folder="gallery" onChange={(next) => setLocal((p) => ({ ...p, items: next }))} />
+
+          <Button onClick={() => onSave('gallery', local)} disabled={isSaving} className="rounded-none mt-2" size="sm">
+            {isSaving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Save className="h-4 w-4 mr-2" />} Salvar
+          </Button>
+        </div>
+      </AccordionContent>
+    </AccordionItem>
+  );
+}
+
 export default function Content() {
   const { isLoading, getSection, updateSection } = useSiteContent();
   const [savingKey, setSavingKey] = useState<string | null>(null);
