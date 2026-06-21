@@ -5,6 +5,7 @@ import {
   ToyBrick, Dog, Sprout, Trees, PartyPopper, UtensilsCrossed,
 } from "lucide-react";
 import { useSectionContent } from "@/hooks/useSiteContent";
+import { EditableText } from "@/components/EditableText";
 
 const ICONS: Record<string, any> = {
   Shield, ScanFace, Trophy, Volleyball, Wine, Flame, Briefcase, Baby,
