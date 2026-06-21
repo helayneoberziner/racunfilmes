@@ -3,16 +3,8 @@ import { useRef } from "react";
 import { ChevronDown } from "lucide-react";
 import heroBg from "@/assets/hero-lago.jpg";
 import { useSectionContent } from "@/hooks/useSiteContent";
-
-const DEFAULTS = {
-  eyebrow: "Lago di Garda — Blumenau / SC",
-  title_a: "Um novo padrão",
-  title_b: "de viver em",
-  title_highlight: "Blumenau",
-  subtitle: "Segurança, natureza e infraestrutura completa para construir a casa dos seus sonhos no bairro Velha.",
-  cta_primary: "Agendar Visita",
-  cta_secondary: "Conhecer o Empreendimento",
-};
+import { getDefaults } from "@/lib/sectionDefaults";
+import { EditableText } from "@/components/EditableText";
 
 export default function Hero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -22,7 +14,7 @@ export default function Hero() {
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
 
   const { content } = useSectionContent("hero");
-  const c = { ...DEFAULTS, ...content };
+  const c = { ...getDefaults("hero"), ...(content ?? {}) };
 
   const scrollTo = (href: string) => {
     const el = document.querySelector(href);
@@ -31,29 +23,42 @@ export default function Hero() {
     window.scrollTo({ top, behavior: "smooth" });
   };
 
+  const isVideo = c.media_type === "video" && !!c.media_url;
+  const mediaSrc: string = c.media_url || heroBg;
+
   return (
     <section id="home" ref={ref} className="relative h-[100svh] min-h-[640px] w-full overflow-hidden bg-ink">
       <motion.div style={{ y, scale }} className="absolute inset-0">
-        <img
-          src={heroBg}
-          alt="Vista aérea do Lago di Garda ao entardecer"
-          className="h-full w-full object-cover"
-          width={1920}
-          height={1080}
-          fetchPriority="high"
-        />
+        {isVideo ? (
+          <video
+            src={mediaSrc}
+            className="h-full w-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+          />
+        ) : (
+          <img
+            src={mediaSrc}
+            alt="Vista aérea do Lago di Garda ao entardecer"
+            className="h-full w-full object-cover"
+            width={1920}
+            height={1080}
+            fetchPriority="high"
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-b from-ink/40 via-ink/30 to-ink/85" />
         <div className="absolute inset-0 bg-gradient-to-r from-ink/55 via-transparent to-ink/40" />
       </motion.div>
 
       <motion.div style={{ opacity }} className="relative z-10 h-full flex flex-col">
-        {/* top corner annotations */}
         <div className="container-custom pt-24 md:pt-28 flex justify-between items-start text-paper/70 text-[11px] uppercase tracking-[0.32em] font-light">
           <span>Bairro Velha</span>
           <span className="hidden sm:block">Rua Divinópolis · Blumenau</span>
         </div>
 
-        {/* main */}
         <div className="container-custom flex-1 flex items-end pb-20 md:pb-28">
           <div className="max-w-5xl">
             <motion.div
@@ -63,7 +68,13 @@ export default function Hero() {
               className="flex items-center gap-4 text-paper/85 mb-8"
             >
               <span className="h-px w-12 bg-gold" />
-              <span className="text-[11px] uppercase tracking-[0.32em] font-medium">{c.eyebrow}</span>
+              <EditableText
+                sectionKey="hero"
+                fieldKey="eyebrow"
+                value={c.eyebrow}
+                as="span"
+                className="text-[11px] uppercase tracking-[0.32em] font-medium"
+              />
             </motion.div>
 
             <motion.h1
@@ -72,9 +83,11 @@ export default function Hero() {
               transition={{ duration: 1.1, delay: 0.35, ease: [0.2,0.7,0.2,1] }}
               className="display text-paper text-[44px] sm:text-[64px] md:text-[88px] lg:text-[112px] leading-[0.92] font-extralight text-balance"
             >
-              {c.title_a}<br className="hidden sm:block" />{" "}
-              <span className="font-light">{c.title_b}</span>{" "}
-              <span className="italic font-extralight gold-text">{c.title_highlight}</span>.
+              <EditableText sectionKey="hero" fieldKey="title_a" value={c.title_a} as="span" />
+              <br className="hidden sm:block" />{" "}
+              <EditableText sectionKey="hero" fieldKey="title_b" value={c.title_b} as="span" className="font-light" />{" "}
+              <EditableText sectionKey="hero" fieldKey="title_highlight" value={c.title_highlight} as="span" className="italic font-extralight gold-text" />
+              .
             </motion.h1>
 
             <motion.p
@@ -83,7 +96,7 @@ export default function Hero() {
               transition={{ duration: 1, delay: 0.6 }}
               className="mt-8 max-w-xl text-paper/80 text-base md:text-lg font-light leading-relaxed text-pretty"
             >
-              {c.subtitle}
+              <EditableText sectionKey="hero" fieldKey="subtitle" value={c.subtitle} as="span" multiline />
             </motion.p>
 
             <motion.div
@@ -96,20 +109,19 @@ export default function Hero() {
                 onClick={() => scrollTo("#contact")}
                 className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-paper text-ink text-[12px] uppercase tracking-[0.28em] font-medium hover:bg-gold transition-all duration-500"
               >
-                {c.cta_primary}
+                <EditableText sectionKey="hero" fieldKey="cta_primary" value={c.cta_primary} as="span" />
                 <span className="h-px w-6 bg-ink/60 group-hover:w-10 transition-all" />
               </button>
               <button
                 onClick={() => scrollTo("#lifestyle")}
                 className="inline-flex items-center justify-center gap-3 px-8 py-4 border border-paper/40 text-paper text-[12px] uppercase tracking-[0.28em] font-medium hover:border-paper hover:bg-paper/5 transition-all duration-500"
               >
-                {c.cta_secondary}
+                <EditableText sectionKey="hero" fieldKey="cta_secondary" value={c.cta_secondary} as="span" />
               </button>
             </motion.div>
           </div>
         </div>
 
-        {/* scroll hint */}
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-paper/60">
           <span className="text-[10px] uppercase tracking-[0.4em]">Role</span>
           <ChevronDown className="w-4 h-4 animate-scroll-hint" />
