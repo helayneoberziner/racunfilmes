@@ -302,6 +302,8 @@ export default function Content() {
             <Accordion type="multiple" className="space-y-2">
               <LogoUploadSection content={getSection('general')} onSave={handleSave} isSaving={savingKey === 'general'} />
 
+              <HeroMediaEditor content={getSection('hero')} onSave={handleSave} isSaving={savingKey === 'hero'} />
+
               <SectionEditor
                 label="Hero — banner principal" sectionKey="hero"
                 content={getSection('hero')} onSave={handleSave} isSaving={savingKey === 'hero'}
@@ -403,6 +405,8 @@ export default function Content() {
                   { key: 'text', label: 'Texto', type: 'textarea' },
                 ]}
               />
+
+              <GallerySectionEditor content={getSection('gallery')} onSave={handleSave} isSaving={savingKey === 'gallery'} />
 
               <ListSectionEditor
                 label="Diferenciais" sectionKey="differentials" itemsKey="items"
