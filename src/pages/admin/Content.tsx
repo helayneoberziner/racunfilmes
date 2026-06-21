@@ -8,6 +8,8 @@ import { Save, Loader2, Plus, Trash2, Upload, X, RefreshCw, ExternalLink } from 
 import { useEffect, useRef, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { getDefaults } from '@/lib/sectionDefaults';
+import { MediaField } from '@/components/admin/MediaField';
+import { MediaListField, GalleryItem } from '@/components/admin/MediaListField';
 
 interface FieldConfig { key: string; label: string; type: 'text' | 'textarea'; placeholder?: string; }
 
