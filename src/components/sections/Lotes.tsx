@@ -1,6 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { useSectionContent } from "@/hooks/useSiteContent";
+import { EditableText } from "@/components/EditableText";
 
 export default function Lotes() {
   const ref = useRef<HTMLDivElement>(null);
@@ -30,17 +31,16 @@ export default function Lotes() {
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-center">
           <div className="lg:col-span-5">
             <div className="text-[11px] uppercase tracking-[0.32em] text-gold/80 mb-8 flex items-center gap-3">
-              <span className="h-px w-8 bg-gold/60" /> {c.eyebrow}
+              <span className="h-px w-8 bg-gold/60" />
+              <EditableText sectionKey="lotes" fieldKey="eyebrow" value={c.eyebrow} as="span" />
             </div>
             <motion.div
               initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 1.1 }}
               className="flex flex-col"
             >
-              <span className="text-paper/60 text-sm uppercase tracking-[0.28em] font-light mb-3">{c.suffix}</span>
-              <span className="display text-[110px] md:text-[180px] lg:text-[220px] leading-[0.85] font-extralight text-paper">
-                {c.big}
-              </span>
+              <EditableText sectionKey="lotes" fieldKey="suffix" value={c.suffix} as="span" className="text-paper/60 text-sm uppercase tracking-[0.28em] font-light mb-3" />
+              <EditableText sectionKey="lotes" fieldKey="big" value={c.big} as="span" className="display text-[110px] md:text-[180px] lg:text-[220px] leading-[0.85] font-extralight text-paper" />
               <span className="mt-4 text-gold text-sm uppercase tracking-[0.3em]">Área útil</span>
             </motion.div>
           </div>
@@ -51,10 +51,10 @@ export default function Lotes() {
               transition={{ duration: 1.1, delay: 0.15 }}
               className="display text-[32px] md:text-[44px] lg:text-[52px] leading-tight text-balance"
             >
-              {c.title}
+              <EditableText sectionKey="lotes" fieldKey="title" value={c.title} as="span" />
             </motion.h2>
             <p className="mt-8 text-paper/75 font-light leading-relaxed text-pretty max-w-lg">
-              {c.text}
+              <EditableText sectionKey="lotes" fieldKey="text" value={c.text} as="span" multiline />
             </p>
 
             <ul className="mt-12 space-y-4">

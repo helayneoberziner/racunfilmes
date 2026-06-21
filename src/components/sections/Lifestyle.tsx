@@ -1,28 +1,14 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { useSectionContent } from "@/hooks/useSiteContent";
-
-const DEFAULTS = {
-  eyebrow: "Experiência de vida",
-  title_a: "Não vendemos lotes.",
-  title_b: "Entregamos um",
-  highlight: "novo capítulo",
-  title_c: "para sua família.",
-  paragraph:
-    "Lago di Garda nasceu para acolher famílias que entendem que viver bem é viver com tempo, segurança e propósito. Aqui, a arquitetura responde à natureza — e a natureza responde ao silêncio.",
-  stat1_value: "320m²",
-  stat1_label: "Área mínima dos lotes",
-  stat2_value: "24h",
-  stat2_label: "Segurança com controle facial",
-  stat3_value: "15+",
-  stat3_label: "Espaços de convivência",
-};
+import { getDefaults } from "@/lib/sectionDefaults";
+import { EditableText } from "@/components/EditableText";
 
 export default function Lifestyle() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-120px" });
   const { content } = useSectionContent("lifestyle");
-  const c = { ...DEFAULTS, ...content };
+  const c = { ...getDefaults("lifestyle"), ...(content ?? {}) };
 
   return (
     <section id="lifestyle" ref={ref} className="relative bg-paper grain">
@@ -33,9 +19,9 @@ export default function Lifestyle() {
               initial={{ opacity: 0, y: 24 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 1, ease: [0.2,0.7,0.2,1] }}
-              className="eyebrow mb-8"
+              className="mb-8"
             >
-              {c.eyebrow}
+              <EditableText sectionKey="lifestyle" fieldKey="eyebrow" value={c.eyebrow} as="span" className="eyebrow" />
             </motion.div>
             <motion.h2
               initial={{ opacity: 0, y: 32 }}
@@ -43,12 +29,12 @@ export default function Lifestyle() {
               transition={{ duration: 1.1, delay: 0.1 }}
               className="display text-[40px] md:text-[56px] lg:text-[68px] text-ink text-balance"
             >
-              {c.title_a}
+              <EditableText sectionKey="lifestyle" fieldKey="title_a" value={c.title_a} as="span" />
               <br />
-              <span className="text-foreground/80">{c.title_b}</span>{" "}
-              <span className="italic gold-text">{c.highlight}</span>
+              <EditableText sectionKey="lifestyle" fieldKey="title_b" value={c.title_b} as="span" className="text-foreground/80" />{" "}
+              <EditableText sectionKey="lifestyle" fieldKey="highlight" value={c.highlight} as="span" className="italic gold-text" />
               <br />
-              {c.title_c}
+              <EditableText sectionKey="lifestyle" fieldKey="title_c" value={c.title_c} as="span" />
             </motion.h2>
           </div>
 
@@ -59,8 +45,9 @@ export default function Lifestyle() {
               transition={{ duration: 1, delay: 0.2 }}
               className="text-lg md:text-xl text-foreground/70 font-light leading-relaxed text-pretty max-w-xl"
             >
-              {c.paragraph}
+              <EditableText sectionKey="lifestyle" fieldKey="paragraph" value={c.paragraph} as="span" multiline />
             </motion.p>
+
 
             <div className="mt-16 grid grid-cols-3 divide-x divide-foreground/15">
               {[

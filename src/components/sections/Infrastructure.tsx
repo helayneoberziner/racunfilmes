@@ -5,6 +5,7 @@ import {
   ToyBrick, Dog, Sprout, Trees, PartyPopper, UtensilsCrossed,
 } from "lucide-react";
 import { useSectionContent } from "@/hooks/useSiteContent";
+import { EditableText } from "@/components/EditableText";
 
 const ICONS: Record<string, any> = {
   Shield, ScanFace, Trophy, Volleyball, Wine, Flame, Briefcase, Baby,
@@ -44,11 +45,13 @@ export default function Infrastructure() {
       <div className="container-custom section-padding">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-10 mb-16 md:mb-24">
           <div className="max-w-2xl">
-            <motion.div initial={{opacity:0,y:20}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:1}}
-              className="eyebrow mb-8">{c.eyebrow}</motion.div>
+            <motion.div initial={{opacity:0,y:20}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:1}} className="mb-8">
+              <EditableText sectionKey="infrastructure" fieldKey="eyebrow" value={c.eyebrow} as="span" className="eyebrow" />
+            </motion.div>
             <motion.h2 initial={{opacity:0,y:30}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:1.1,delay:0.1}}
               className="display text-ink text-[36px] md:text-[52px] lg:text-[64px] text-balance leading-[0.98]">
-              {c.title}<br /><span className="italic gold-text">{c.title2}</span>
+              <EditableText sectionKey="infrastructure" fieldKey="title" value={c.title} as="span" /><br />
+              <EditableText sectionKey="infrastructure" fieldKey="title2" value={c.title2} as="span" className="italic gold-text" />
             </motion.h2>
           </div>
           <div className="text-sm text-muted-foreground font-light max-w-xs">

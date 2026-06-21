@@ -2,6 +2,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import masterplan from "@/assets/masterplan.jpg";
 import { useSectionContent } from "@/hooks/useSiteContent";
+import { EditableText } from "@/components/EditableText";
 
 const DEFAULT_PINS = [
   { x: 28, y: 48, label: "Lotes residenciais" },
@@ -29,13 +30,18 @@ export default function Masterplan() {
       <div className="container-custom section-padding">
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
           <div className="lg:col-span-4 order-2 lg:order-1">
-            <motion.div initial={{opacity:0,y:20}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:1}} className="eyebrow mb-8">{c.eyebrow}</motion.div>
+            <motion.div initial={{opacity:0,y:20}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:1}} className="mb-8">
+              <EditableText sectionKey="masterplan" fieldKey="eyebrow" value={c.eyebrow} as="span" className="eyebrow" />
+            </motion.div>
             <motion.h2 initial={{opacity:0,y:30}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:1.1,delay:0.1}}
               className="display text-ink text-[36px] md:text-[48px] lg:text-[56px] text-balance">
-              {c.title}<br /><span className="italic gold-text">{c.title2}</span>
+              <EditableText sectionKey="masterplan" fieldKey="title" value={c.title} as="span" /><br />
+              <EditableText sectionKey="masterplan" fieldKey="title2" value={c.title2} as="span" className="italic gold-text" />
             </motion.h2>
             <motion.p initial={{opacity:0,y:20}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:1,delay:0.2}}
-              className="mt-8 text-foreground/70 font-light leading-relaxed text-pretty">{c.text}</motion.p>
+              className="mt-8 text-foreground/70 font-light leading-relaxed text-pretty">
+              <EditableText sectionKey="masterplan" fieldKey="text" value={c.text} as="span" multiline />
+            </motion.p>
 
             <div className="mt-10 space-y-3">
               {c.pins.map((p, i) => (

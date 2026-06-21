@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useSectionContent } from "@/hooks/useSiteContent";
+import { EditableText } from "@/components/EditableText";
 
 const DEFAULT_ITEMS = [
   { title: "Segurança absoluta", text: "Portaria 24h, controle facial, perímetro monitorado e ronda interna." },
@@ -23,9 +24,10 @@ export default function Differentials() {
     <section className="bg-paper-warm/40 bg-paper">
       <div className="container-custom section-padding">
         <div className="max-w-3xl mb-16 md:mb-20">
-          <div className="eyebrow mb-8">{c.eyebrow}</div>
+          <EditableText sectionKey="differentials" fieldKey="eyebrow" value={c.eyebrow} as="div" className="eyebrow mb-8" />
           <h2 className="display text-ink text-[34px] md:text-[48px] lg:text-[58px] text-balance leading-tight">
-            {c.title} <span className="italic gold-text">{c.title2}</span>
+            <EditableText sectionKey="differentials" fieldKey="title" value={c.title} as="span" />{" "}
+            <EditableText sectionKey="differentials" fieldKey="title2" value={c.title2} as="span" className="italic gold-text" />
           </h2>
         </div>
 

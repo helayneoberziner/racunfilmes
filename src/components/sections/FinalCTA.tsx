@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import hero from "@/assets/hero-lago.jpg";
 import { useSectionContent } from "@/hooks/useSiteContent";
+import { EditableText } from "@/components/EditableText";
 
 export default function FinalCTA() {
   const { content } = useSectionContent("final_cta");
@@ -32,7 +33,8 @@ export default function FinalCTA() {
           transition={{ duration: 1.2, delay: 0.15 }}
           className="display text-paper text-[44px] sm:text-[68px] md:text-[96px] lg:text-[120px] leading-[0.92] font-extralight text-balance"
         >
-          {c.title}<br /><span className="italic gold-text font-light">{c.title2}</span>
+          <EditableText sectionKey="final_cta" fieldKey="title" value={c.title} as="span" /><br />
+          <EditableText sectionKey="final_cta" fieldKey="title2" value={c.title2} as="span" className="italic gold-text font-light" />
         </motion.h2>
 
         <motion.div
@@ -45,7 +47,7 @@ export default function FinalCTA() {
             onClick={(e) => { e.preventDefault(); document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" }); }}
             className="group inline-flex items-center gap-5 px-10 py-5 bg-paper text-ink text-[12px] uppercase tracking-[0.32em] font-medium hover:bg-gold transition-colors duration-500"
           >
-            {c.cta}
+            <EditableText sectionKey="final_cta" fieldKey="cta" value={c.cta} as="span" />
             <span className="h-px w-10 bg-ink/60 group-hover:w-16 transition-all" />
           </a>
         </motion.div>

@@ -15,6 +15,15 @@ export const sectionDefaults: Record<string, Record<string, any>> = {
       "Segurança, natureza e infraestrutura completa para construir a casa dos seus sonhos no bairro Velha.",
     cta_primary: "Agendar Visita",
     cta_secondary: "Conhecer o Empreendimento",
+    media_url: "",
+    media_type: "image",
+  },
+
+  gallery: {
+    eyebrow: "Galeria",
+    title: "Imagens que",
+    title2: "antecipam o sentir.",
+    items: [] as { url: string; caption?: string; span?: string }[],
   },
 
   lifestyle: {

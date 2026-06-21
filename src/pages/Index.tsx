@@ -14,28 +14,33 @@ import Contact from "@/components/sections/Contact";
 import FinalCTA from "@/components/sections/FinalCTA";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import { EditModeProvider } from "@/contexts/EditModeContext";
+import { EditModeToolbar } from "@/components/EditModeToolbar";
 
 const Index = () => (
-  <div className="min-h-screen bg-paper text-ink">
-    <Navbar />
-    <main>
-      <Hero />
-      <Lifestyle />
-      <UmDia />
-      <Infrastructure />
-      <Location />
-      <Masterplan />
-      <Lotes />
-      <Gallery />
-      <Differentials />
-      <Testimonials />
-      <FAQ />
-      <Contact />
-      <FinalCTA />
-    </main>
-    <Footer />
-    <WhatsAppButton />
-  </div>
+  <EditModeProvider>
+    <div className="min-h-screen bg-paper text-ink">
+      <Navbar />
+      <main>
+        <Hero />
+        <Lifestyle />
+        <UmDia />
+        <Infrastructure />
+        <Location />
+        <Masterplan />
+        <Lotes />
+        <Gallery />
+        <Differentials />
+        <Testimonials />
+        <FAQ />
+        <Contact />
+        <FinalCTA />
+      </main>
+      <Footer />
+      <WhatsAppButton />
+      <EditModeToolbar />
+    </div>
+  </EditModeProvider>
 );
 
 export default Index;
