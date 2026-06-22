@@ -1,6 +1,6 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { LogOut, LayoutDashboard, Users, Home, FileText } from 'lucide-react';
+import { LogOut, LayoutDashboard, Users, Home, FileText, Settings } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
@@ -10,6 +10,7 @@ const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/leads', label: 'Leads', icon: Users },
   { href: '/admin/content', label: 'Conteúdo', icon: FileText },
+  { href: '/admin/settings', label: 'Configurações', icon: Settings },
 ];
 
 export function AdminLayout({ children }: AdminLayoutProps) {
