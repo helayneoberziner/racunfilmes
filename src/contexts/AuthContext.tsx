@@ -130,6 +130,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
     setSession(null);
     setIsAdmin(false);
+    setIsSuperAdmin(false);
   };
 
   return (
@@ -139,6 +140,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         session,
         isLoading,
         isAdmin,
+        isSuperAdmin,
         signIn,
         signUp,
         signOut,
