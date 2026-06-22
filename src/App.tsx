@@ -14,6 +14,7 @@ import Leads from "./pages/admin/Leads";
 import PortfolioAdmin from "./pages/admin/Portfolio";
 import TeamAdmin from "./pages/admin/Team";
 import ContentAdmin from "./pages/admin/Content";
+import SettingsAdmin from "./pages/admin/Settings";
 
 const queryClient = new QueryClient();
 
@@ -70,6 +71,15 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/admin/settings"
+              element={
+                <ProtectedRoute requireAdmin>
+                  <SettingsAdmin />
+                </ProtectedRoute>
+              }
+            />
+            
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

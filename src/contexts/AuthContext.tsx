@@ -9,6 +9,7 @@ interface AuthContextType {
   session: Session | null;
   isLoading: boolean;
   isAdmin: boolean;
+  isSuperAdmin: boolean;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signUp: (email: string, password: string, fullName: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
@@ -22,6 +23,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
 
   const checkRole = async (role: AppRole): Promise<boolean> => {
     if (!user) return false;
@@ -44,23 +46,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const updateAdminStatus = async (currentUser: User | null) => {
     if (!currentUser) {
       setIsAdmin(false);
+      setIsSuperAdmin(false);
       return;
     }
-    
+
     const { data, error } = await supabase
       .from('user_roles')
       .select('role')
-      .eq('user_id', currentUser.id)
-      .eq('role', 'admin')
-      .maybeSingle();
-    
+      .eq('user_id', currentUser.id);
+
     if (error) {
       console.error('Error checking admin status:', error);
       setIsAdmin(false);
+      setIsSuperAdmin(false);
       return;
     }
-    
-    setIsAdmin(!!data);
+
+    const roles = (data ?? []).map((r: any) => r.role);
+    const superAdmin = roles.includes('super_admin');
+    setIsSuperAdmin(superAdmin);
+    setIsAdmin(superAdmin || roles.includes('admin'));
   };
 
   useEffect(() => {
@@ -125,6 +130,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
     setSession(null);
     setIsAdmin(false);
+    setIsSuperAdmin(false);
   };
 
   return (
@@ -134,6 +140,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         session,
         isLoading,
         isAdmin,
+        isSuperAdmin,
         signIn,
         signUp,
         signOut,
