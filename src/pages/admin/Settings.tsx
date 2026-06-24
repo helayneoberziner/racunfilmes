@@ -189,6 +189,7 @@ export default function Settings() {
       <Tabs defaultValue="info" className="space-y-6">
         <TabsList>
           <TabsTrigger value="info">Informações</TabsTrigger>
+          <TabsTrigger value="pixels">Rastreio & Pixels</TabsTrigger>
           <TabsTrigger value="users" disabled={!isSuperAdmin}>
             Acessos {!isSuperAdmin && "(somente Super Admin)"}
           </TabsTrigger>
