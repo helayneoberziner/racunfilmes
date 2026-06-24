@@ -39,6 +39,7 @@ export default function Settings() {
   // ------------------ General info ------------------
   const footer = getSection("footer") ?? {};
   const general = getSection("general") ?? {};
+  const tracking = getSection("tracking") ?? {};
   const [info, setInfo] = useState({
     address: "",
     phone: "",
@@ -52,6 +53,13 @@ export default function Settings() {
     google_maps_url: "",
     business_hours: "",
     logo_url: "",
+  });
+  const [pixels, setPixels] = useState({
+    meta_pixel_id: "",
+    google_analytics_id: "",
+    google_tag_id: "",
+    tiktok_pixel_id: "",
+    custom_head_html: "",
   });
 
   useEffect(() => {
@@ -70,6 +78,13 @@ export default function Settings() {
         business_hours: footer.business_hours ?? "",
         logo_url: general.logo_url ?? "",
       });
+      setPixels({
+        meta_pixel_id: tracking.meta_pixel_id ?? "",
+        google_analytics_id: tracking.google_analytics_id ?? "",
+        google_tag_id: tracking.google_tag_id ?? "",
+        tiktok_pixel_id: tracking.tiktok_pixel_id ?? "",
+        custom_head_html: tracking.custom_head_html ?? "",
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading]);
@@ -81,6 +96,11 @@ export default function Settings() {
       sectionKey: "general",
       content: { ...general, logo_url },
     });
+  };
+
+  const savePixels = async () => {
+    await updateSection.mutateAsync({ sectionKey: "tracking", content: pixels });
+    toast({ title: "Pixels atualizados", description: "Recarregue o site público para aplicar." });
   };
 
   // ------------------ Users ------------------
