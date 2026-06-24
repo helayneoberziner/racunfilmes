@@ -15,6 +15,7 @@ import PortfolioAdmin from "./pages/admin/Portfolio";
 import TeamAdmin from "./pages/admin/Team";
 import ContentAdmin from "./pages/admin/Content";
 import SettingsAdmin from "./pages/admin/Settings";
+import { TrackingPixels } from "@/components/TrackingPixels";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <TrackingPixels />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
