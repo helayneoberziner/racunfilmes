@@ -290,6 +290,84 @@ export default function Settings() {
           </Card>
         </TabsContent>
 
+        {/* ============ TRACKING / PIXELS TAB ============ */}
+        <TabsContent value="pixels">
+          <Card className="p-6 md:p-8 space-y-6">
+            <div>
+              <h2 className="font-display text-xl text-ink mb-1">Rastreio & Pixels de Conversão</h2>
+              <p className="text-sm text-muted-foreground">
+                Configure os pixels de marketing. Os scripts são carregados automaticamente em todas as páginas do site.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <Label>Meta Pixel ID (Facebook / Instagram)</Label>
+                <Input
+                  value={pixels.meta_pixel_id}
+                  onChange={(e) => setPixels({ ...pixels, meta_pixel_id: e.target.value })}
+                  placeholder="ex: 1234567890123456"
+                />
+                <p className="text-xs text-muted-foreground mt-1">
+                  Encontrado em Meta Business → Eventos → Pixels.
+                </p>
+              </div>
+              <div>
+                <Label>Google Analytics 4 (Measurement ID)</Label>
+                <Input
+                  value={pixels.google_analytics_id}
+                  onChange={(e) => setPixels({ ...pixels, google_analytics_id: e.target.value })}
+                  placeholder="G-XXXXXXXXXX"
+                />
+                <p className="text-xs text-muted-foreground mt-1">
+                  Em Admin → Fluxos de dados.
+                </p>
+              </div>
+              <div>
+                <Label>Google Tag Manager (Container ID)</Label>
+                <Input
+                  value={pixels.google_tag_id}
+                  onChange={(e) => setPixels({ ...pixels, google_tag_id: e.target.value })}
+                  placeholder="GTM-XXXXXXX"
+                />
+              </div>
+              <div>
+                <Label>TikTok Pixel ID</Label>
+                <Input
+                  value={pixels.tiktok_pixel_id}
+                  onChange={(e) => setPixels({ ...pixels, tiktok_pixel_id: e.target.value })}
+                  placeholder="ex: C8XXXXXXXXXXXXXXXXXX"
+                />
+                <p className="text-xs text-muted-foreground mt-1">
+                  TikTok Ads Manager → Ativos → Eventos.
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <Label>HTML personalizado no &lt;head&gt; (avançado)</Label>
+              <Textarea
+                value={pixels.custom_head_html}
+                onChange={(e) => setPixels({ ...pixels, custom_head_html: e.target.value })}
+                rows={6}
+                placeholder="<!-- Scripts adicionais: LinkedIn Insight Tag, Hotjar, Clarity, etc. -->"
+                className="font-mono text-xs"
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                Cole snippets completos (com &lt;script&gt;). Use apenas códigos de fontes confiáveis.
+              </p>
+            </div>
+
+            <div className="flex justify-end pt-4 border-t">
+              <Button onClick={savePixels} disabled={updateSection.isPending}>
+                {updateSection.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                Salvar pixels
+              </Button>
+            </div>
+          </Card>
+        </TabsContent>
+
+
         {/* ============ USERS TAB ============ */}
         <TabsContent value="users">
           {!isSuperAdmin ? (
