@@ -67,13 +67,13 @@ export default function Hero() {
               transition={{ duration: 1, delay: 0.2, ease: [0.2,0.7,0.2,1] }}
               className="flex items-center gap-3 sm:gap-4 text-paper/85 mb-6 sm:mb-8"
             >
-              <span className="h-px w-12 bg-gold" />
+              <span className="h-px w-10 sm:w-12 bg-gold" />
               <EditableText
                 sectionKey="hero"
                 fieldKey="eyebrow"
                 value={c.eyebrow}
                 as="span"
-                className="text-[11px] uppercase tracking-[0.32em] font-medium"
+                className="text-[10px] sm:text-[11px] uppercase tracking-[0.28em] sm:tracking-[0.32em] font-medium"
               />
             </motion.div>
 
