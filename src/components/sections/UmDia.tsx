@@ -36,7 +36,7 @@ export default function UmDia() {
             initial={{ opacity: 0, y: 32 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1.1, delay: 0.1 }}
-            className="display text-paper text-[40px] md:text-[60px] lg:text-[76px] text-balance leading-[0.95]"
+            className="display text-paper text-[30px] sm:text-[40px] md:text-[60px] lg:text-[76px] text-balance leading-[0.95]"
           >
             Da primeira luz à<br /><span className="italic gold-text">última estrela</span>.
           </motion.h2>

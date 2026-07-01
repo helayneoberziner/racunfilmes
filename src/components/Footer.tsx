@@ -16,8 +16,8 @@ export default function Footer() {
     <footer className="bg-emerald-deep text-paper relative overflow-hidden">
       <div className="absolute inset-0 opacity-[0.04] pointer-events-none"
            style={{ backgroundImage: "radial-gradient(circle at 20% 20%, hsl(42 52% 60%) 0%, transparent 60%)" }} />
-      <div className="container-custom pt-20 pb-10 relative">
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
+      <div className="container-custom pt-16 sm:pt-20 pb-10 relative">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-16">
           <div className="lg:col-span-5">
             <div className="flex items-baseline gap-3">
               <span className="font-display text-3xl md:text-4xl font-light tracking-tight">Lago</span>
@@ -57,9 +57,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-paper/15 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-paper/50 font-light">
+        <div className="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-paper/15 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-paper/50 font-light">
           <p>© {year} Lago di Garda. Todos os direitos reservados.</p>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <a href="#" className="hover:text-gold transition-colors">Política de Privacidade</a>
             <a href="#" className="hover:text-gold transition-colors">Termos de Uso</a>
             <Link to="/admin/login" className="flex items-center gap-1 hover:text-gold transition-colors" title="Painel">

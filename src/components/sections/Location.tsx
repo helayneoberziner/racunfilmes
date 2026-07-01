@@ -35,7 +35,7 @@ export default function Location() {
               <EditableText sectionKey="location" fieldKey="eyebrow" value={c.eyebrow} as="span" className="eyebrow" />
             </motion.div>
             <motion.h2 initial={{opacity:0,y:30}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:1.1,delay:0.1}}
-              className="display text-ink text-[36px] md:text-[52px] lg:text-[60px] text-balance">
+              className="display text-ink text-[28px] sm:text-[36px] md:text-[52px] lg:text-[60px] text-balance">
               <EditableText sectionKey="location" fieldKey="title" value={c.title} as="span" /><br />
               <EditableText sectionKey="location" fieldKey="title2" value={c.title2} as="span" className="italic gold-text" />
             </motion.h2>

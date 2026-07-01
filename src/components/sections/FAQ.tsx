@@ -24,7 +24,7 @@ export default function FAQ() {
             <motion.h2
               initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               transition={{ duration: 1 }}
-              className="display text-ink text-[36px] md:text-[48px] lg:text-[56px] text-balance leading-tight"
+              className="display text-ink text-[28px] sm:text-[36px] md:text-[48px] lg:text-[56px] text-balance leading-tight"
             >
               O que você ainda <span className="italic gold-text">precisa saber</span>.
             </motion.h2>

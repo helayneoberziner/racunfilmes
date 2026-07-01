@@ -29,14 +29,14 @@ export default function Testimonials() {
               key={i}
               initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="font-display font-extralight text-[28px] md:text-[44px] lg:text-[52px] leading-[1.15] text-balance"
+              className="font-display font-extralight text-[22px] sm:text-[28px] md:text-[40px] lg:text-[52px] leading-[1.2] text-balance"
             >
-              <span className="text-gold/60 mr-3">“</span>
+              <span className="text-gold/60 mr-2 sm:mr-3">“</span>
               {item.quote}
               <span className="text-gold/60 ml-2">”</span>
             </motion.blockquote>
 
-            <div className="mt-12 flex items-center justify-between">
+            <div className="mt-10 sm:mt-12 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
               <div>
                 <div className="font-display text-lg font-light">{item.author}</div>
                 <div className="text-sm text-paper/60 font-light">{item.role}</div>

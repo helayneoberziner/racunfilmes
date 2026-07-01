@@ -40,7 +40,7 @@ export default function Lotes() {
               className="flex flex-col"
             >
               <EditableText sectionKey="lotes" fieldKey="suffix" value={c.suffix} as="span" className="text-paper/60 text-sm uppercase tracking-[0.28em] font-light mb-3" />
-              <EditableText sectionKey="lotes" fieldKey="big" value={c.big} as="span" className="display text-[110px] md:text-[180px] lg:text-[220px] leading-[0.85] font-extralight text-paper" />
+              <EditableText sectionKey="lotes" fieldKey="big" value={c.big} as="span" className="display text-[84px] sm:text-[120px] md:text-[180px] lg:text-[220px] leading-[0.85] font-extralight text-paper" />
               <span className="mt-4 text-gold text-sm uppercase tracking-[0.3em]">Área útil</span>
             </motion.div>
           </div>
@@ -49,7 +49,7 @@ export default function Lotes() {
             <motion.h2
               initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 1.1, delay: 0.15 }}
-              className="display text-[32px] md:text-[44px] lg:text-[52px] leading-tight text-balance"
+              className="display text-[26px] sm:text-[32px] md:text-[44px] lg:text-[52px] leading-tight text-balance"
             >
               <EditableText sectionKey="lotes" fieldKey="title" value={c.title} as="span" />
             </motion.h2>

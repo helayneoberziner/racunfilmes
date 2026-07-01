@@ -43,13 +43,13 @@ export default function Infrastructure() {
   return (
     <section id="infra" ref={ref} className="bg-paper-warm/40 bg-paper">
       <div className="container-custom section-padding">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-10 mb-16 md:mb-24">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 sm:gap-10 mb-12 sm:mb-16 md:mb-24">
           <div className="max-w-2xl">
-            <motion.div initial={{opacity:0,y:20}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:1}} className="mb-8">
+            <motion.div initial={{opacity:0,y:20}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:1}} className="mb-6 sm:mb-8">
               <EditableText sectionKey="infrastructure" fieldKey="eyebrow" value={c.eyebrow} as="span" className="eyebrow" />
             </motion.div>
             <motion.h2 initial={{opacity:0,y:30}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:1.1,delay:0.1}}
-              className="display text-ink text-[36px] md:text-[52px] lg:text-[64px] text-balance leading-[0.98]">
+              className="display text-ink text-[30px] sm:text-[40px] md:text-[52px] lg:text-[64px] text-balance leading-[1]">
               <EditableText sectionKey="infrastructure" fieldKey="title" value={c.title} as="span" /><br />
               <EditableText sectionKey="infrastructure" fieldKey="title2" value={c.title2} as="span" className="italic gold-text" />
             </motion.h2>
@@ -69,14 +69,14 @@ export default function Infrastructure() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: (i % 4) * 0.05 }}
-                className="group relative border-r border-b border-foreground/10 p-6 md:p-8 lg:p-10 min-h-[180px] md:min-h-[220px] flex flex-col justify-between bg-paper hover:bg-emerald-deep hover:text-paper transition-colors duration-500"
+                className="group relative border-r border-b border-foreground/10 p-4 sm:p-6 md:p-8 lg:p-10 min-h-[140px] sm:min-h-[180px] md:min-h-[220px] flex flex-col justify-between bg-paper hover:bg-emerald-deep hover:text-paper transition-colors duration-500"
               >
                 <Icon className="w-6 h-6 md:w-7 md:h-7 text-accent group-hover:text-gold transition-colors" strokeWidth={1.2} />
                 <div>
                   <div className="num-marker text-xs text-muted-foreground group-hover:text-gold/70 transition-colors">
                     {String(i + 1).padStart(2, "0")}
                   </div>
-                  <h3 className="mt-2 font-display font-light text-lg md:text-xl leading-tight text-balance">
+                  <h3 className="mt-2 font-display font-light text-base sm:text-lg md:text-xl leading-tight text-balance">
                     {it.title}
                   </h3>
                 </div>
