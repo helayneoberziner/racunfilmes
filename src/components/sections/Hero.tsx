@@ -94,7 +94,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.6 }}
-              className="mt-8 max-w-xl text-paper/80 text-base md:text-lg font-light leading-relaxed text-pretty"
+              className="mt-6 sm:mt-8 max-w-xl text-paper/80 text-[15px] sm:text-base md:text-lg font-light leading-relaxed text-pretty"
             >
               <EditableText sectionKey="hero" fieldKey="subtitle" value={c.subtitle} as="span" multiline />
             </motion.p>
