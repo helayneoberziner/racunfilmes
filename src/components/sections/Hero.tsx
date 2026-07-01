@@ -81,7 +81,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 32 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.1, delay: 0.35, ease: [0.2,0.7,0.2,1] }}
-              className="display text-paper text-[44px] sm:text-[64px] md:text-[88px] lg:text-[112px] leading-[0.92] font-extralight text-balance"
+              className="display text-paper text-[38px] xs:text-[44px] sm:text-[60px] md:text-[88px] lg:text-[112px] leading-[0.95] font-extralight text-balance"
             >
               <EditableText sectionKey="hero" fieldKey="title_a" value={c.title_a} as="span" />
               <br className="hidden sm:block" />{" "}
