@@ -54,12 +54,12 @@ export default function Hero() {
       </motion.div>
 
       <motion.div style={{ opacity }} className="relative z-10 h-full flex flex-col">
-        <div className="container-custom pt-24 md:pt-28 flex justify-between items-start text-paper/70 text-[11px] uppercase tracking-[0.32em] font-light">
+        <div className="container-custom pt-20 md:pt-28 flex justify-between items-start text-paper/70 text-[10px] sm:text-[11px] uppercase tracking-[0.28em] sm:tracking-[0.32em] font-light">
           <span>Bairro Velha</span>
           <span className="hidden sm:block">Rua Divinópolis · Blumenau</span>
         </div>
 
-        <div className="container-custom flex-1 flex items-end pb-20 md:pb-28">
+        <div className="container-custom flex-1 flex items-end pb-16 sm:pb-20 md:pb-28">
           <div className="max-w-5xl">
             <motion.div
               initial={{ opacity: 0, y: 24 }}
