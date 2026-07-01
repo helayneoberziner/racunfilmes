@@ -102,7 +102,7 @@ export default function Contact() {
           </div>
 
           <div className="lg:col-span-7">
-            <div className="border border-foreground/10 bg-card editorial-shadow p-8 md:p-12 lg:p-14">
+            <div className="border border-foreground/10 bg-card editorial-shadow p-6 sm:p-8 md:p-12 lg:p-14">
               {done ? (
                 <div className="py-12 text-center">
                   <div className="w-14 h-14 rounded-full bg-accent/15 flex items-center justify-center mx-auto mb-6">
