@@ -80,13 +80,13 @@ export default function Contact() {
   return (
     <section id="contact" ref={ref} className="bg-paper">
       <div className="container-custom section-padding">
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-20">
+        <div className="grid lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-20">
           <div className="lg:col-span-5">
-            <motion.div initial={{opacity:0,y:20}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:1}} className="mb-8">
+            <motion.div initial={{opacity:0,y:20}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:1}} className="mb-6 sm:mb-8">
               <EditableText sectionKey="contact_form" fieldKey="eyebrow" value={c.eyebrow} as="span" className="eyebrow" />
             </motion.div>
             <motion.h2 initial={{opacity:0,y:30}} animate={inView?{opacity:1,y:0}:{}} transition={{duration:1.1,delay:0.1}}
-              className="display text-ink text-[36px] md:text-[52px] lg:text-[60px] text-balance leading-[0.98]">
+              className="display text-ink text-[30px] sm:text-[36px] md:text-[52px] lg:text-[60px] text-balance leading-[1]">
               <EditableText sectionKey="contact_form" fieldKey="title" value={c.title} as="span" /><br />
               <EditableText sectionKey="contact_form" fieldKey="title2" value={c.title2} as="span" className="italic gold-text" />
             </motion.h2>
