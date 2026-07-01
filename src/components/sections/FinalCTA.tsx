@@ -40,12 +40,12 @@ export default function FinalCTA() {
         <motion.div
           initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="mt-14"
+          className="mt-10 sm:mt-14"
         >
           <a
             href="#contact"
             onClick={(e) => { e.preventDefault(); document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" }); }}
-            className="group inline-flex items-center gap-5 px-10 py-5 bg-paper text-ink text-[12px] uppercase tracking-[0.32em] font-medium hover:bg-gold transition-colors duration-500"
+            className="group inline-flex items-center justify-center gap-4 sm:gap-5 px-8 sm:px-10 py-4 sm:py-5 bg-paper text-ink text-[11px] sm:text-[12px] uppercase tracking-[0.28em] sm:tracking-[0.32em] font-medium hover:bg-gold transition-colors duration-500"
           >
             <EditableText sectionKey="final_cta" fieldKey="cta" value={c.cta} as="span" />
             <span className="h-px w-10 bg-ink/60 group-hover:w-16 transition-all" />
