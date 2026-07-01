@@ -16,8 +16,8 @@ export default function Footer() {
     <footer className="bg-emerald-deep text-paper relative overflow-hidden">
       <div className="absolute inset-0 opacity-[0.04] pointer-events-none"
            style={{ backgroundImage: "radial-gradient(circle at 20% 20%, hsl(42 52% 60%) 0%, transparent 60%)" }} />
-      <div className="container-custom pt-20 pb-10 relative">
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
+      <div className="container-custom pt-16 sm:pt-20 pb-10 relative">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-16">
           <div className="lg:col-span-5">
             <div className="flex items-baseline gap-3">
               <span className="font-display text-3xl md:text-4xl font-light tracking-tight">Lago</span>
