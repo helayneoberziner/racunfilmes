@@ -113,13 +113,13 @@ export default function Contact() {
                 </div>
               ) : (
                 <>
-                  <div className="flex items-center justify-between mb-10">
-                    <div className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground">
+                  <div className="flex items-center justify-between mb-8 sm:mb-10 gap-4">
+                    <div className="text-[10px] sm:text-[11px] uppercase tracking-[0.28em] text-muted-foreground whitespace-nowrap">
                       Etapa {step + 1} <span className="text-foreground/30">/ 03</span>
                     </div>
                     <div className="flex gap-1.5">
                       {[0,1,2].map((n) => (
-                        <span key={n} className={`h-px w-10 transition-colors ${n <= step ? "bg-accent" : "bg-foreground/15"}`} />
+                        <span key={n} className={`h-px w-6 sm:w-10 transition-colors ${n <= step ? "bg-accent" : "bg-foreground/15"}`} />
                       ))}
                     </div>
                   </div>
