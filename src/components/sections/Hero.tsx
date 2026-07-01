@@ -103,18 +103,18 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.8 }}
-              className="mt-10 flex flex-col sm:flex-row gap-3 sm:gap-5"
+              className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-5"
             >
               <button
                 onClick={() => scrollTo("#contact")}
-                className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-paper text-ink text-[12px] uppercase tracking-[0.28em] font-medium hover:bg-gold transition-all duration-500"
+                className="group inline-flex items-center justify-center gap-3 w-full sm:w-auto px-6 sm:px-8 py-4 bg-paper text-ink text-[11px] sm:text-[12px] uppercase tracking-[0.24em] sm:tracking-[0.28em] font-medium hover:bg-gold transition-all duration-500"
               >
                 <EditableText sectionKey="hero" fieldKey="cta_primary" value={c.cta_primary} as="span" />
                 <span className="h-px w-6 bg-ink/60 group-hover:w-10 transition-all" />
               </button>
               <button
                 onClick={() => scrollTo("#lifestyle")}
-                className="inline-flex items-center justify-center gap-3 px-8 py-4 border border-paper/40 text-paper text-[12px] uppercase tracking-[0.28em] font-medium hover:border-paper hover:bg-paper/5 transition-all duration-500"
+                className="inline-flex items-center justify-center gap-3 w-full sm:w-auto px-6 sm:px-8 py-4 border border-paper/40 text-paper text-[11px] sm:text-[12px] uppercase tracking-[0.24em] sm:tracking-[0.28em] font-medium hover:border-paper hover:bg-paper/5 transition-all duration-500"
               >
                 <EditableText sectionKey="hero" fieldKey="cta_secondary" value={c.cta_secondary} as="span" />
               </button>
