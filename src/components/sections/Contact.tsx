@@ -183,11 +183,11 @@ export default function Contact() {
                     </div>
                   )}
 
-                  <div className="mt-12 flex items-center justify-between gap-4">
+                  <div className="mt-10 sm:mt-12 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-4">
                     <button
                       onClick={() => setStep((s) => Math.max(0, s - 1))}
                       disabled={step === 0}
-                      className="flex items-center gap-2 text-[11px] uppercase tracking-[0.28em] text-muted-foreground disabled:opacity-30 hover:text-ink transition-colors"
+                      className="flex items-center gap-2 text-[11px] uppercase tracking-[0.28em] text-muted-foreground disabled:opacity-30 hover:text-ink transition-colors self-start sm:self-auto"
                     >
                       <ArrowLeft className="w-3.5 h-3.5" /> Voltar
                     </button>
@@ -196,7 +196,7 @@ export default function Contact() {
                       <button
                         onClick={() => canNext() && setStep((s) => s + 1)}
                         disabled={!canNext()}
-                        className="group inline-flex items-center gap-4 px-8 py-4 bg-ink text-paper text-[11px] uppercase tracking-[0.28em] font-medium disabled:opacity-40 hover:bg-accent hover:text-ink transition-colors"
+                        className="group inline-flex items-center justify-center gap-4 w-full sm:w-auto px-6 sm:px-8 py-4 bg-ink text-paper text-[11px] uppercase tracking-[0.28em] font-medium disabled:opacity-40 hover:bg-accent hover:text-ink transition-colors"
                       >
                         Continuar
                         <span className="h-px w-6 bg-paper/60 group-hover:bg-ink/60 group-hover:w-10 transition-all" />
@@ -205,7 +205,7 @@ export default function Contact() {
                       <button
                         onClick={submit}
                         disabled={!canNext() || sending}
-                        className="group inline-flex items-center gap-4 px-8 py-4 bg-accent text-ink text-[11px] uppercase tracking-[0.28em] font-medium disabled:opacity-40 hover:bg-ink hover:text-paper transition-colors"
+                        className="group inline-flex items-center justify-center gap-4 w-full sm:w-auto px-6 sm:px-8 py-4 bg-accent text-ink text-[11px] uppercase tracking-[0.28em] font-medium disabled:opacity-40 hover:bg-ink hover:text-paper transition-colors"
                       >
                         {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <>Finalizar <ArrowRight className="w-3.5 h-3.5" /></>}
                       </button>
