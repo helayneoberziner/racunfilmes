@@ -76,7 +76,7 @@ export default function Infrastructure() {
                   <div className="num-marker text-xs text-muted-foreground group-hover:text-gold/70 transition-colors">
                     {String(i + 1).padStart(2, "0")}
                   </div>
-                  <h3 className="mt-2 font-display font-light text-lg md:text-xl leading-tight text-balance">
+                  <h3 className="mt-2 font-display font-light text-base sm:text-lg md:text-xl leading-tight text-balance">
                     {it.title}
                   </h3>
                 </div>
