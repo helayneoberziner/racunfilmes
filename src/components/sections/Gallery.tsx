@@ -27,9 +27,9 @@ export default function Gallery() {
   return (
     <section id="gallery" className="bg-paper">
       <div className="container-custom section-padding">
-        <div className="max-w-3xl mb-16 md:mb-20">
-          <EditableText sectionKey="gallery" fieldKey="eyebrow" value={c.eyebrow} as="div" className="eyebrow mb-8" />
-          <h2 className="display text-ink text-[36px] md:text-[52px] lg:text-[64px] text-balance leading-[0.98]">
+        <div className="max-w-3xl mb-12 sm:mb-16 md:mb-20">
+          <EditableText sectionKey="gallery" fieldKey="eyebrow" value={c.eyebrow} as="div" className="eyebrow mb-6 sm:mb-8" />
+          <h2 className="display text-ink text-[32px] sm:text-[40px] md:text-[52px] lg:text-[64px] text-balance leading-[1]">
             <EditableText sectionKey="gallery" fieldKey="title" value={c.title} as="span" />{" "}
             <EditableText sectionKey="gallery" fieldKey="title2" value={c.title2} as="span" className="italic gold-text" />
           </h2>
