@@ -19,19 +19,19 @@ export default function FinalCTA() {
         <div className="absolute inset-0 bg-gradient-to-b from-ink/40 via-transparent to-ink/80" />
       </div>
 
-      <div className="relative container-custom py-32 md:py-44 lg:py-56 text-center">
+      <div className="relative container-custom py-24 sm:py-32 md:py-44 lg:py-56 text-center">
         <motion.div
           initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           transition={{ duration: 1 }}
-          className="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.32em] text-gold/80 mb-10"
+          className="inline-flex items-center gap-2 sm:gap-3 text-[10px] sm:text-[11px] uppercase tracking-[0.28em] sm:tracking-[0.32em] text-gold/80 mb-8 sm:mb-10"
         >
-          <span className="h-px w-8 bg-gold/60" /> Lago di Garda · Blumenau <span className="h-px w-8 bg-gold/60" />
+          <span className="h-px w-6 sm:w-8 bg-gold/60" /> Lago di Garda · Blumenau <span className="h-px w-6 sm:w-8 bg-gold/60" />
         </motion.div>
 
         <motion.h2
           initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           transition={{ duration: 1.2, delay: 0.15 }}
-          className="display text-paper text-[44px] sm:text-[68px] md:text-[96px] lg:text-[120px] leading-[0.92] font-extralight text-balance"
+          className="display text-paper text-[40px] sm:text-[64px] md:text-[96px] lg:text-[120px] leading-[0.95] font-extralight text-balance"
         >
           <EditableText sectionKey="final_cta" fieldKey="title" value={c.title} as="span" /><br />
           <EditableText sectionKey="final_cta" fieldKey="title2" value={c.title2} as="span" className="italic gold-text font-light" />
