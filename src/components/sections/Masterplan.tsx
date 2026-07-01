@@ -71,13 +71,14 @@ export default function Masterplan() {
                   key={i}
                   onMouseEnter={() => setActive(i)}
                   onMouseLeave={() => setActive(null)}
+                  onClick={() => setActive((a) => (a === i ? null : i))}
                   className="absolute group"
                   style={{ left: `${p.x}%`, top: `${p.y}%`, transform: "translate(-50%,-50%)" }}
                 >
                   <span className={`relative block w-3 h-3 rounded-full bg-accent ${active===i?"scale-150":""} transition-transform`}>
                     <span className="absolute inset-0 rounded-full bg-accent/40 animate-ping" />
                   </span>
-                  <span className={`absolute left-5 top-1/2 -translate-y-1/2 whitespace-nowrap text-[11px] uppercase tracking-[0.2em] px-2 py-1 bg-ink text-paper transition-all ${active===i?"opacity-100 translate-x-0":"opacity-0 -translate-x-2 pointer-events-none"}`}>
+                  <span className={`absolute left-5 top-1/2 -translate-y-1/2 whitespace-nowrap text-[10px] sm:text-[11px] uppercase tracking-[0.18em] sm:tracking-[0.2em] px-2 py-1 bg-ink text-paper transition-all ${active===i?"opacity-100 translate-x-0":"opacity-0 -translate-x-2 pointer-events-none"}`}>
                     {String(i+1).padStart(2,"0")} · {p.label}
                   </span>
                 </button>
