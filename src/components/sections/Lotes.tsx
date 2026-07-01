@@ -49,7 +49,7 @@ export default function Lotes() {
             <motion.h2
               initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 1.1, delay: 0.15 }}
-              className="display text-[32px] md:text-[44px] lg:text-[52px] leading-tight text-balance"
+              className="display text-[26px] sm:text-[32px] md:text-[44px] lg:text-[52px] leading-tight text-balance"
             >
               <EditableText sectionKey="lotes" fieldKey="title" value={c.title} as="span" />
             </motion.h2>

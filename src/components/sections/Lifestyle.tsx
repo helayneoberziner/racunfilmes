@@ -27,7 +27,7 @@ export default function Lifestyle() {
               initial={{ opacity: 0, y: 32 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 1.1, delay: 0.1 }}
-              className="display text-[40px] md:text-[56px] lg:text-[68px] text-ink text-balance"
+              className="display text-[32px] sm:text-[40px] md:text-[56px] lg:text-[68px] text-ink text-balance"
             >
               <EditableText sectionKey="lifestyle" fieldKey="title_a" value={c.title_a} as="span" />
               <br />

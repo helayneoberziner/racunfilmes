@@ -25,7 +25,7 @@ export default function Differentials() {
       <div className="container-custom section-padding">
         <div className="max-w-3xl mb-16 md:mb-20">
           <EditableText sectionKey="differentials" fieldKey="eyebrow" value={c.eyebrow} as="div" className="eyebrow mb-8" />
-          <h2 className="display text-ink text-[34px] md:text-[48px] lg:text-[58px] text-balance leading-tight">
+          <h2 className="display text-ink text-[28px] sm:text-[34px] md:text-[48px] lg:text-[58px] text-balance leading-tight">
             <EditableText sectionKey="differentials" fieldKey="title" value={c.title} as="span" />{" "}
             <EditableText sectionKey="differentials" fieldKey="title2" value={c.title2} as="span" className="italic gold-text" />
           </h2>
