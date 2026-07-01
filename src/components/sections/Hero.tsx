@@ -27,7 +27,7 @@ export default function Hero() {
   const mediaSrc: string = c.media_url || heroBg;
 
   return (
-    <section id="home" ref={ref} className="relative h-[100svh] min-h-[640px] w-full overflow-hidden bg-ink">
+    <section id="home" ref={ref} className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-ink">
       <motion.div style={{ y, scale }} className="absolute inset-0">
         {isVideo ? (
           <video
