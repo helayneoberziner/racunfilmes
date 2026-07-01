@@ -69,7 +69,7 @@ export default function Infrastructure() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: (i % 4) * 0.05 }}
-                className="group relative border-r border-b border-foreground/10 p-6 md:p-8 lg:p-10 min-h-[180px] md:min-h-[220px] flex flex-col justify-between bg-paper hover:bg-emerald-deep hover:text-paper transition-colors duration-500"
+                className="group relative border-r border-b border-foreground/10 p-4 sm:p-6 md:p-8 lg:p-10 min-h-[140px] sm:min-h-[180px] md:min-h-[220px] flex flex-col justify-between bg-paper hover:bg-emerald-deep hover:text-paper transition-colors duration-500"
               >
                 <Icon className="w-6 h-6 md:w-7 md:h-7 text-accent group-hover:text-gold transition-colors" strokeWidth={1.2} />
                 <div>
