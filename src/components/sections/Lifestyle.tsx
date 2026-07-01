@@ -49,7 +49,7 @@ export default function Lifestyle() {
             </motion.p>
 
 
-            <div className="mt-16 grid grid-cols-3 divide-x divide-foreground/15">
+            <div className="mt-12 sm:mt-16 grid grid-cols-3 divide-x divide-foreground/15">
               {[
                 { v: c.stat1_value, l: c.stat1_label },
                 { v: c.stat2_value, l: c.stat2_label },
@@ -60,10 +60,10 @@ export default function Lifestyle() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.9, delay: 0.35 + i * 0.1 }}
-                  className="px-4 first:pl-0 last:pr-0"
+                  className="px-3 sm:px-4 first:pl-0 last:pr-0"
                 >
-                  <div className="num-marker text-3xl md:text-5xl">{s.v}</div>
-                  <div className="mt-3 text-xs md:text-sm uppercase tracking-[0.18em] text-muted-foreground font-light leading-snug">{s.l}</div>
+                  <div className="num-marker text-2xl sm:text-3xl md:text-5xl">{s.v}</div>
+                  <div className="mt-2 sm:mt-3 text-[10px] sm:text-xs md:text-sm uppercase tracking-[0.14em] sm:tracking-[0.18em] text-muted-foreground font-light leading-snug">{s.l}</div>
                 </motion.div>
               ))}
             </div>
